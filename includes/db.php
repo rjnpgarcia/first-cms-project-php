@@ -5,6 +5,6 @@ define("DB_PASS", "");
 define("DB_NAME", "cms");
 
 $connection = mysqli_connect(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-if ($connection) {
-    echo "we are connected";
+if (!$connection) {
+    die("Database Connection Failed");
 }
