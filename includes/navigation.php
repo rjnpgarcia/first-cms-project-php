@@ -1,3 +1,4 @@
+<!-- Database Connection -->
 <?php include "db.php"; ?>
 
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
