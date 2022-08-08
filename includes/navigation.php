@@ -1,6 +1,3 @@
-<!-- Database Connection -->
-<?php include "db.php"; ?>
-
 <nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container">
         <!-- Brand and toggle get grouped for better mobile display -->
