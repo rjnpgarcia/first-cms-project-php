@@ -27,7 +27,7 @@
                 if (!$searchQuery) {
                     die("Search Query Failed" . mysqli_error($connection));
                 }
-                // TO TEST IF SEARCH IS WORKING
+                // TEST FIRST IF SEARCH ENGINE IS WORKING
                 $count = mysqli_num_rows($searchQuery);
                 if ($count == 0) {
                     echo "<h2>NO RESULT</h2>";
@@ -56,9 +56,9 @@
 
                         <hr>
             <?php
-                    }
-                }
-            }
+                    } // for While Loop
+                } // for Else Statement
+            } // for Isset
             ?>
 
 
