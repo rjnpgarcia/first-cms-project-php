@@ -1,6 +1,6 @@
 <div class="col-md-4">
-   <!-- For Search Engine -->
-   <?php
+    <!-- For Search Engine -->
+    <?php
     if (isset($_POST['submit'])) {
         $search = $_POST['search'];
         $query = "SELECT * FROM posts WHERE post_tags LIKE '%$search%'";
