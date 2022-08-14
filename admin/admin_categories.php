@@ -28,30 +28,30 @@
                                 $query = "INSERT INTO categories(cat_title) VALUE ('$cat_title')";
                                 $create_category_query = mysqli_query($connection, $query);
 
-                                if (!$create_category_query) {
+                                if ($create_category_query) {
+                                    echo "Category succesfully added";
+                                } else {
                                     die('QUERY FAILED' . mysqli_error($connection));
                                 }
                             }
                         }
-
-
-
-
-
-
-
-
                         ?>
-                        <div class="form-group">
-                            <label for="cat-title">Add Category</label>
-                            <form action="" method="post">
+                        <form action="" method="post">
+                            <div class="form-group">
+                                <label for="cat-title">Add Category</label>
                                 <input type="text" name="cat_title" class="form-control">
-
-                        </div>
-                        <div class="form-group">
-                            <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
-                        </div>
+                            </div>
+                            <div class="form-group">
+                                <input class="btn btn-primary" type="submit" name="submit" value="Add Category">
+                            </div>
                         </form>
+                        <!-- Edit Category -->
+                        <?php
+                        if (isset($_GET['edit'])) {
+                            $cat_id = $_GET['edit'];
+                            include "includes/admin_update_categories.php";
+                        }
+                        ?>
                     </div> <!-- Add Category Form -->
                 </div>
                 <div class="col-xs-6">
@@ -63,7 +63,8 @@
                     // DELETE QUERY
                     if (isset($_GET['delete'])) {
                         $cat_id_delete = $_GET['delete'];
-                        $query = "DELETE FROM categories WHERE cat_id = $cat_id_delete";
+                        $query = "DELETE FROM categories WHERE cat_id = '$cat_id_delete'";
+                        $delete_cat_query = mysqli_query($connection, $query);
                         header("Location: admin_categories.php");
                     }
                     ?>
@@ -72,6 +73,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Category Title</th>
+                                <th colspan="2">Options</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -79,9 +81,12 @@
                             while ($row = mysqli_fetch_assoc($select_categories)) {
                                 $cat_id = $row['cat_id'];
                                 $cat_title = $row['cat_title'];
-                                echo "<tr><td>$cat_id</td>";
+                                echo "<tr>";
+                                echo "<td>$cat_id</td>";
                                 echo "<td>$cat_title</td>";
-                                echo "<td><a href='admin_categories.php?delete=$cat_id'>Delete</a></td></tr>";
+                                echo "<td><a href='admin_categories.php?delete=$cat_id'>Delete</a></td>";
+                                echo "<td><a href='admin_categories.php?edit=$cat_id'>Edit</a>";
+                                echo "</tr>";
                             }
 
                             ?>

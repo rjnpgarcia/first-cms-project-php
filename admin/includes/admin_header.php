@@ -1,4 +1,5 @@
-<?php ob_start(); ?>
+<?php ob_start();
+?>
 
 <!-- Database Connection -->
 <?php include "../includes/db.php"; ?>
