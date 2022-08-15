@@ -3,6 +3,8 @@
 
 <!-- Database Connection -->
 <?php include "../includes/db.php"; ?>
+<!-- functions -->
+<?php include "functions.php"; ?>
 
 <!DOCTYPE html>
 <html lang="en">
