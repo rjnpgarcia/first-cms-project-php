@@ -1,5 +1,15 @@
 <?php
 
+//  CONFIRM QUERY CONNECTION FUNCTION
+function confirmQuery($result)
+{
+    global $connection;
+
+    if (!$result) {
+        die("QUERY FAILED" . mysqli_error($connection));
+    }
+}
+
 // CREATE CATEGORY QUERY
 function createCategory()
 {
@@ -47,7 +57,7 @@ function deleteCategory()
     if (isset($_GET['delete'])) {
         $cat_id_delete = $_GET['delete'];
         $query = "DELETE FROM categories WHERE cat_id = '$cat_id_delete'";
-        $delete_cat_query = mysqli_query($connection, $query);
+        mysqli_query($connection, $query);
         header("Location: admin_categories.php");
     }
 }
