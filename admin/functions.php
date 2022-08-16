@@ -50,7 +50,7 @@ function findAllCategory()
     }
 }
 
-//  DELETE QUERY
+//  DELETE CATEGORY QUERY
 function deleteCategory()
 {
     global $connection;
@@ -59,5 +59,16 @@ function deleteCategory()
         $query = "DELETE FROM categories WHERE cat_id = '$cat_id_delete'";
         mysqli_query($connection, $query);
         header("Location: admin_categories.php");
+    }
+}
+
+//  DELETE POST QUERY
+function deletePost()
+{
+    global $connection;
+    if (isset($_GET['delete'])) {
+        $post_id_delete = $_GET['delete'];
+        $query = "DELETE FROM posts WHERE post_id = '$post_id_delete'";
+        mysqli_query($connection, $query);
     }
 }
