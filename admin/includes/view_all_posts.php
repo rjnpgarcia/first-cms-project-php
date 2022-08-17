@@ -11,6 +11,7 @@
             <th>Tags</th>
             <th>Comments</th>
             <th>Date</th>
+            <th colspan="2">Options</th>
         </tr>
     </thead>
     <tbody>
@@ -28,11 +29,17 @@
             $post_comment_count = $row['post_comment_count'];
             $post_date = $row['post_date'];
 
+            //  TO DISPLAY CATEGORY
+            $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
+            $select_category = mysqli_query($connection, $query);
+            while ($row = mysqli_fetch_assoc($select_category)) {
+                $cat_title = $row['cat_title'];
+            }
             echo "<tr>";
             echo "<td>$post_id</td>";
             echo "<td>$post_author</td>";
             echo "<td>$post_title</td>";
-            echo "<td>$post_category_id</td>";
+            echo "<td>$cat_title</td>";
             echo "<td>$post_status</td>";
             echo "<td><img width='100px' src='../images/$post_image' alt='post image'></td>";
             echo "<td>$post_tags</td>";

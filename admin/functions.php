@@ -10,6 +10,17 @@ function confirmQuery($result)
     }
 }
 
+function confirmQueryAlert($result)
+{
+    global $connection;
+
+    if ($result) {
+        echo "Successfully Added";
+    } else {
+        die("QUERY FAILED" . mysqli_error($connection));
+    }
+}
+
 // CREATE CATEGORY QUERY
 function createCategory()
 {
@@ -70,5 +81,6 @@ function deletePost()
         $post_id_delete = $_GET['delete'];
         $query = "DELETE FROM posts WHERE post_id = '$post_id_delete'";
         mysqli_query($connection, $query);
+        header("Location: admin_posts.php");
     }
 }

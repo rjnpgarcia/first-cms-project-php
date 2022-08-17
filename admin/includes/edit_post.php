@@ -14,6 +14,35 @@ if (isset($_GET['p_id'])) {
         $post_content = $row['post_content'];
     }
 }
+
+if (isset($_POST['update_post'])) {
+    $post_title = $_POST['post_title'];
+    $post_category_id = $_POST['post_category_id'];
+    $post_author = $_POST['post_author'];
+    $post_status = $_POST['post_status'];
+
+    $post_image = $_FILES['post_image']['name'];
+    $post_image_temp = $_FILES['post_image']['tmp_name'];
+
+    $post_tags = $_POST['post_tags'];
+    $post_content = $_POST['post_content'];
+    $post_date = date('d-m-y');
+
+    move_uploaded_file($post_image_temp, "../images/$post_image");
+
+    if (empty($post_image)) {
+        $query = "SELECT * FROM posts WHERE post_id = $post_id_edit";
+        $select_image = mysqli_query($connection, $query);
+        while ($row = mysqli_fetch_assoc($select_image)) {
+            $post_image = $row['post_image'];
+        }
+    }
+
+    $query = "UPDATE posts SET post_title = '$post_title', post_category_id = '$post_category_id', post_author = '$post_author', post_status = '$post_status', post_image = '$post_image', post_tags = '$post_tags', post_date = now(), post_content = '$post_content' WHERE post_id = $post_id_edit";
+
+    $update_post = mysqli_query($connection, $query);
+    confirmQueryAlert($update_post);
+}
 ?>
 <form action="" method="post" enctype="multipart/form-data">
     <div class="form-group">
@@ -22,7 +51,7 @@ if (isset($_GET['p_id'])) {
     </div>
     <div class="form-group">
         <label for="post_category">Post Category</label><br>
-        <select name="post_category" id="post_category">
+        <select name="post_category_id" id="">
             <?php
             $query = "SELECT * FROM categories";
             $select_categories = mysqli_query($connection, $query);
@@ -58,6 +87,6 @@ if (isset($_GET['p_id'])) {
         <textarea name="post_content" class="form-control" id="" cols="30" rows="10"><?php echo "$post_content"; ?></textarea>
     </div>
     <div class="form-group">
-        <input type="submit" class="btn btn-primary" name="create_post" value="Update Post">
+        <input type="submit" class="btn btn-primary" name="update_post" value="Update Post">
     </div>
 </form>

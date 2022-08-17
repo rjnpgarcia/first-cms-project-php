@@ -18,7 +18,11 @@ if (isset($_POST['create_post'])) {
     $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_comment_count, post_status) VALUES ('$post_category_id', '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', '$post_comment_count', '$post_status')";
 
     $create_post_query = mysqli_query($connection, $query);
-    confirmQuery($create_post_query);
+    if ($create_post_query) {
+        echo "Post Successfully Added";
+    } else {
+        die("QUERY FAILED" . mysqli_error($connection));
+    }
 }
 
 ?>
@@ -29,8 +33,20 @@ if (isset($_POST['create_post'])) {
         <input type="text" name="post_title" class="form-control">
     </div>
     <div class="form-group">
-        <label for="post_category_id">Post Category ID</label>
-        <input type="text" name="post_category_id" class="form-control">
+        <label for="post_category_id">Post Category</label><br>
+        <select name="post_category_id" id="">
+            <?php
+            $query = "SELECT * FROM categories";
+            $select_categories = mysqli_query($connection, $query);
+            confirmQuery($select_categories);
+            while ($row = mysqli_fetch_assoc($select_categories)) {
+                $cat_id = $row['cat_id'];
+                $cat_title = $row['cat_title'];
+
+                echo "<option value='$cat_id'>$cat_title</option>";
+            }
+            ?>
+        </select>
     </div>
     <div class="form-group">
         <label for="post_author">Post Author</label>
