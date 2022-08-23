@@ -84,3 +84,15 @@ function deletePost()
         header("Location: admin_posts.php");
     }
 }
+
+//  DELETE COMMENT QUERY
+function deleteComment()
+{
+    global $connection;
+    if (isset($_GET['delete'])) {
+        $comment_id_delete = $_GET['delete'];
+        $query = "DELETE FROM comments WHERE comment_id = $comment_id_delete";
+        mysqli_query($connection, $query);
+        header('Location: admin_comments.php');
+    }
+}

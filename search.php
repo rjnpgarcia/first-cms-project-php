@@ -29,11 +29,12 @@
                 }
                 // TEST FIRST IF SEARCH ENGINE IS WORKING
                 $count = mysqli_num_rows($searchQuery);
-                if ($count == 0) {
+                if ($count === 0) {
                     echo "<h2>NO RESULT</h2>";
                 } else {
 
                     while ($row = mysqli_fetch_assoc($searchQuery)) {
+                        $post_id = $row['post_id'];
                         $post_title = $row['post_title'];
                         $post_author = $row['post_author'];
                         $post_date = $row['post_date'];
@@ -42,7 +43,7 @@
 
             ?>
                         <h2>
-                            <a href="#"><?php echo $post_title ?></a>
+                            <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title ?></a>
                         </h2>
                         <p class="lead">
                             by <a href="index.php"><?php echo $post_author ?></a>
