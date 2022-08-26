@@ -29,8 +29,8 @@ if (isset($_POST['create_user'])) {
         <label for="user_role">User Role</label><br>
         <select name="user_role" id="">
             <option value="subscriber">SELECT OPTION</option>
-            <option value="admin">Admin</option>
-            <option value="subscriber">Subscriber</option>
+            <option value="admin">admin</option>
+            <option value="subscriber">subscriber</option>
         </select>
     </div>
     <div class="form-group">
@@ -43,7 +43,7 @@ if (isset($_POST['create_user'])) {
     </div>
     <div class="form-group">
         <label for="user_password">Password</label>
-        <input type="text" name="user_password" class="form-control">
+        <input type="password" name="user_password" class="form-control">
     </div>
     <div class="form-group">
         <input type="submit" class="btn btn-primary" name="create_user" value="Add User">

@@ -8,7 +8,7 @@
             <th>Lastname</th>
             <th>Email</th>
             <th>Role</th>
-            <th colspan="3">Options</th>
+            <th colspan="4">Options</th>
         </tr>
     </thead>
     <tbody>
@@ -33,27 +33,28 @@
             echo "<td>$user_lastname</td>";
             echo "<td>$user_email</td>";
             echo "<td>$user_role</td>";
-            echo "<td><a href='admin_users.php?approve=$user_id'>Approve</a></td>";
-            echo "<td><a href='admin_users.php?unapprove=$user_id'>Unapprove</a></td>";
+            echo "<td><a href='admin_users.php?change_to_admin=$user_id'>Admin</a></td>";
+            echo "<td><a href='admin_users.php?change_to_sub=$user_id'>Subscriber</a></td>";
+            echo "<td><a href='admin_users.php?source=edit_user&u_id=$user_id'>Edit</a></td>";
             echo "<td><a href='admin_users.php?delete=$user_id'>Delete</a></td>";
             echo "</tr>";
         }
 
-        //  STATUS QUERY (Approve / Unapprove)
-        // APPROVE
-        if (isset($_GET['approve'])) {
-            $comment_id_approve = $_GET['approve'];
-            $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = $comment_id_approve";
+        //  CHANGE USER ROLE QUERY (Admin / Subscriber)
+        // ADMIN
+        if (isset($_GET['change_to_admin'])) {
+            $user_id_admin = $_GET['change_to_admin'];
+            $query = "UPDATE users SET user_role = 'admin' WHERE user_id = $user_id_admin";
             mysqli_query($connection, $query);
-            header('Location: admin_comments.php');
+            header('Location: admin_users.php');
         }
 
-        // UNAPPROVE
-        if (isset($_GET['unapprove'])) {
-            $comment_id_unapprove = $_GET['unapprove'];
-            $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = $comment_id_unapprove";
+        // SUBSCRIBER
+        if (isset($_GET['change_to_sub'])) {
+            $user_id_sub = $_GET['change_to_sub'];
+            $query = "UPDATE users SET user_role = 'subscriber' WHERE user_id = $user_id_sub";
             mysqli_query($connection, $query);
-            header('Location: admin_comments.php');
+            header('Location: admin_users.php');
         }
 
 
