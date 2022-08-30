@@ -12,35 +12,52 @@
                     </button>
                 </span>
             </div>
-    </form> <!-- Search bar -->
-    <!-- /.input-group -->
-</div>
-
-<!-- Blog Categories Well -->
-<div class="well">
-    <?php
-    $query = "SELECT * FROM categories";
-    $selectSidebarCategories = mysqli_query($connection, $query);
-    ?>
-    <h4>Blog Categories</h4>
-    <div class="row">
-        <div class="col-lg-12">
-            <ul class="list-unstyled">
-                <?php
-                while ($row = mysqli_fetch_assoc($selectSidebarCategories)) {
-                    $cat_title = $row['cat_title'];
-                    $cat_id = $row['cat_id'];
-
-                    echo "<li><a href='category.php?category=$cat_id'>$cat_title</a></li>";
-                }
-                ?>
-            </ul>
         </div>
+    </form> <!-- Search bar -->
+    <!-- Blog Search Well -->
+    <form action="includes/login.php" method="post">
+        <div class="well">
+            <h4>Login</h4>
+            <div class="form-group">
+                <input name="username" type="text" class="form-control" placeholder="Enter Username">
+            </div>
+            <div class="form-group">
+                <input name="password" type="password" class="form-control" placeholder="Enter Password">
+            </div>
+            <div class="form-group">
+                <input name="login" type="submit" class="btn btn-primary">
+            </div>
+        </div>
+    </form> <!-- Search bar -->
+
+    <!-- /.input-group -->
+
+
+    <!-- Blog Categories Well -->
+    <div class="well">
+        <?php
+        $query = "SELECT * FROM categories";
+        $selectSidebarCategories = mysqli_query($connection, $query);
+        ?>
+        <h4>Blog Categories</h4>
+        <div class="row">
+            <div class="col-lg-12">
+                <ul class="list-unstyled">
+                    <?php
+                    while ($row = mysqli_fetch_assoc($selectSidebarCategories)) {
+                        $cat_title = $row['cat_title'];
+                        $cat_id = $row['cat_id'];
+
+                        echo "<li><a href='category.php?category=$cat_id'>$cat_title</a></li>";
+                    }
+                    ?>
+                </ul>
+            </div>
+        </div>
+        <!-- /.row -->
     </div>
-    <!-- /.row -->
+
+    <!-- Side Widget Well -->
+    <?php include "widget.php"; ?>
 </div>
-
-<!-- Side Widget Well -->
-<?php include "widget.php"; ?>
-
 </div>
