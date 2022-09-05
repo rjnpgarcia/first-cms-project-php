@@ -1,10 +1,18 @@
-<?php ob_start(); ?>
-<?php session_start(); ?>
+<?php
+ob_start();
+session_start();
 
-<!-- Database Connection -->
-<?php include "../includes/db.php"; ?>
-<!-- functions -->
-<?php include "functions.php"; ?>
+//  Validating Admin role
+if (!isset($_SESSION['user_role'])) {
+    header("Location: ../index.php");
+}
+
+// Database Connection
+include "../includes/db.php";
+
+// functions
+include "includes/functions.php";
+?>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -34,7 +42,34 @@
         <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+        google.charts.load('current', {
+            'packages': ['bar']
+        });
+        google.charts.setOnLoadCallback(drawChart);
 
+        function drawChart() {
+            var data = google.visualization.arrayToDataTable([
+                ['Year', 'Sales', 'Expenses', 'Profit'],
+                ['2014', 1000, 400, 200],
+                ['2015', 1170, 460, 250],
+                ['2016', 660, 1120, 300],
+                ['2017', 1030, 540, 350]
+            ]);
+
+            var options = {
+                chart: {
+                    title: 'Company Performance',
+                    subtitle: 'Sales, Expenses, and Profit: 2014-2017',
+                }
+            };
+
+            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
+
+            chart.draw(data, google.charts.Bar.convertOptions(options));
+        }
+    </script>
 </head>
 
 <body>

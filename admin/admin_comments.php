@@ -32,10 +32,6 @@
                             include "includes/edit_post.php";
                             break;
 
-                        case "200";
-                            echo "Nice 200";
-                            break;
-
                         default:
                             include "includes/view_all_comments.php";
                             break;
