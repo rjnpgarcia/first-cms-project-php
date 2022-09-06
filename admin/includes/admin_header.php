@@ -43,32 +43,6 @@ include "includes/functions.php";
         <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-    <script type="text/javascript">
-        google.charts.load('current', {
-            'packages': ['bar']
-        });
-        google.charts.setOnLoadCallback(drawChart);
-
-        function drawChart() {
-            var data = google.visualization.arrayToDataTable([
-                ['Date', 'Count', 'Expenses', 'Profit'],
-                ['Post', 1000, 400, 300],
-                ['2015', 1170, 460, 250],
-                ['2016', 660, 1120, 300],
-            ]);
-
-            var options = {
-                chart: {
-                    title: 'Title',
-                    subtitle: 'Subtitle',
-                }
-            };
-
-            var chart = new google.charts.Bar(document.getElementById('columnchart_material'));
-
-            chart.draw(data, google.charts.Bar.convertOptions(options));
-        }
-    </script>
 </head>
 
 <body>
