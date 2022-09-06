@@ -138,10 +138,12 @@
                 </div>
             </div>
             <!-- /.row -->
-            <div class="row">
 
-                <div id="columnchart_material" style="width: 800px; height: 500px;"></div>
+            <!-- Dashboard Column Graph -->
+            <div class="row">
+                <div id="columnchart_material" style="width: auto; height: 500px;"></div>
             </div>
+
         </div>
         <!-- /.container-fluid -->
 
