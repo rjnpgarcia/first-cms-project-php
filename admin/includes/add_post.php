@@ -51,8 +51,11 @@ if (isset($_POST['create_post'])) {
         <input type="text" name="post_author" class="form-control">
     </div>
     <div class="form-group">
-        <label for="post_status">Post Status</label>
-        <input type="text" name="post_status" class="form-control">
+        <label for="post_status">Post Status</label><br>
+        <select name="post_status" id="">
+            <option value="draft">draft</option>
+            <option value="published">published</option>
+        </select>
     </div>
     <div class="form-group">
         <label for="post_image">Post Image</label>
