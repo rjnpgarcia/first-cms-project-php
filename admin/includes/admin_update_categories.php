@@ -21,11 +21,10 @@
                 $cat_title_update = $_POST['cat_title'];
                 $query = "UPDATE categories SET cat_title = '$cat_title_update' WHERE cat_id = '$cat_id'";
                 $cat_update_query = mysqli_query($connection, $query);
-                if ($cat_update_query) {
-                    echo "Category updated successfully";
-                } else {
+                if (!$cat_update_query) {
                     die('Update Query Failed' . mysqli_error($connection));
                 }
+                echo "Category Successfully Updated: <a href='../admin/admin_categories.php'>View Category</a>";
             }
         }
         ?>

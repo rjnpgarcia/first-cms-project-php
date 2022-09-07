@@ -10,16 +10,6 @@ function confirmQuery($result)
     }
 }
 
-function confirmQueryAlert($result)
-{
-    global $connection;
-
-    if ($result) {
-        echo "Successfully Added";
-    } else {
-        die("QUERY FAILED" . mysqli_error($connection));
-    }
-}
 
 // CREATE CATEGORY QUERY
 function createCategory()
@@ -34,11 +24,10 @@ function createCategory()
             $query = "INSERT INTO categories(cat_title) VALUE ('$cat_title')";
             $create_category_query = mysqli_query($connection, $query);
 
-            if ($create_category_query) {
-                echo "Category succesfully added";
-            } else {
+            if (!$create_category_query) {
                 die('QUERY FAILED' . mysqli_error($connection));
             }
+            echo "Category Successfully Added";
         }
     }
 }

@@ -10,7 +10,8 @@ if (isset($_POST['create_user'])) {
 
     $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_email, user_password) VALUES ('$user_firstname', '$user_lastname', '$user_role', '$username', '$user_email', '$user_password')";
     $create_user_query = mysqli_query($connection, $query);
-    confirmQueryAlert($create_user_query);
+    confirmQuery($create_user_query);
+    echo "User Successfully Added: <a href='admin_users.php'>View Users</a>";
 }
 
 

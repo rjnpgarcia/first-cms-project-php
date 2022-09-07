@@ -18,11 +18,10 @@ if (isset($_POST['create_post'])) {
     $query = "INSERT INTO posts(post_category_id, post_title, post_author, post_date, post_image, post_content, post_tags, post_status) VALUES ('$post_category_id', '$post_title', '$post_author', now(), '$post_image', '$post_content', '$post_tags', '$post_status')";
 
     $create_post_query = mysqli_query($connection, $query);
-    if ($create_post_query) {
-        echo "Post Successfully Added";
-    } else {
+    if (!$create_post_query) {
         die("QUERY FAILED" . mysqli_error($connection));
     }
+    echo "Post Successfully Added: <a href='../admin/admin_posts.php'>View Posts</a>";
 }
 
 ?>
@@ -38,7 +37,6 @@ if (isset($_POST['create_post'])) {
             <?php
             $query = "SELECT * FROM categories";
             $select_categories = mysqli_query($connection, $query);
-            confirmQuery($select_categories);
             while ($row = mysqli_fetch_assoc($select_categories)) {
                 $cat_id = $row['cat_id'];
                 $cat_title = $row['cat_title'];

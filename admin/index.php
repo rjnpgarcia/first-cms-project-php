@@ -140,6 +140,20 @@
             <!-- /.row -->
 
             <!-- Dashboard Column Graph -->
+            <?php
+            // for Draft Post Count
+            $query = "SELECT * FROM posts WHERE post_status = 'draft'";
+            $draft_post_query = mysqli_query($connection, $query);
+            $draft_count = mysqli_num_rows($draft_post_query);
+            // for Unapproved Comment Count
+            $query = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
+            $unapproved_comment_query = mysqli_query($connection, $query);
+            $unapproved_count = mysqli_num_rows($unapproved_comment_query);
+            // for Subscriber User Count
+            $query = "SELECT * FROM users WHERE user_role = 'subscriber'";
+            $subscriber_query = mysqli_query($connection, $query);
+            $subscriber_count = mysqli_num_rows($subscriber_query);
+            ?>
             <div class="row">
                 <script type="text/javascript">
                     google.charts.load('current', {
@@ -152,9 +166,9 @@
                             ['Data', 'Count'],
                             <?php
                             //  For Graph Elements
-                            $element_title = ['Active Post', 'Comments', 'Users', 'Categories'];
-                            $element_count = [$post_count, $comment_count, $user_count, $category_count];
-                            for ($i = 0; $i < 4; $i++) {
+                            $element_title = ['All Posts', 'Draft Post', 'All Comments', 'Unapproved', 'All Users', 'Subscribers', 'Categories'];
+                            $element_count = [$post_count, $draft_count, $comment_count, $unapproved_count, $user_count, $subscriber_count, $category_count];
+                            for ($i = 0; $i < 7; $i++) {
                                 echo "['$element_title[$i]', $element_count[$i]],";
                             }
 

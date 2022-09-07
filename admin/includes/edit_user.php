@@ -28,11 +28,10 @@ if (isset($_POST['edit_user'])) {
 
     $edit_user_query = mysqli_query($connection, $query);
 
-    if ($edit_user_query) {
-        echo "User Updated Successfully";
-    } else {
+    if (!$edit_user_query) {
         die('QUERY FAILED' . mysqli_error($connection));
     }
+    echo "User Successfully Updated: <a href='admin_users.php'>View Users</a>";
 }
 
 

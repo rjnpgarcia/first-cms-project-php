@@ -41,7 +41,8 @@ if (isset($_POST['update_post'])) {
     $query = "UPDATE posts SET post_title = '$post_title', post_category_id = '$post_category_id', post_author = '$post_author', post_status = '$post_status', post_image = '$post_image', post_tags = '$post_tags', post_date = now(), post_content = '$post_content' WHERE post_id = $post_id_edit";
 
     $update_post = mysqli_query($connection, $query);
-    confirmQueryAlert($update_post);
+    confirmQuery($update_post);
+    echo "Post Successfully Updated: <a href='../admin/admin_posts.php'>View Posts</a>";
 }
 ?>
 <form action="" method="post" enctype="multipart/form-data">
@@ -70,8 +71,17 @@ if (isset($_POST['update_post'])) {
         <input type="text" name="post_author" class="form-control" value="<?php echo "$post_author"; ?>">
     </div>
     <div class=" form-group">
-        <label for="post_status">Post Status</label>
-        <input type="text" name="post_status" class="form-control" value="<?php echo "$post_status"; ?>">
+        <label for="post_status">Post Status</label><br>
+        <select name="post_status" id="">
+            <option value="<?php echo "$post_status"; ?>"><? echo "$post_status"; ?></option>
+            <?php
+            if ($post_status === 'draft') {
+                echo "<option value='published'>published</option>";
+            } else {
+                echo "<option value='draft'>draft</option>";
+            }
+            ?>
+        </select>
     </div>
     <div class=" form-group">
         <label for="post_image">Post Image</label><br>
