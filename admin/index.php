@@ -141,6 +141,10 @@
 
             <!-- Dashboard Column Graph -->
             <?php
+            // for Published Post Count
+            $query = "SELECT * FROM posts WHERE post_status = 'published'";
+            $published_post_query = mysqli_query($connection, $query);
+            $published_count = mysqli_num_rows($published_post_query);
             // for Draft Post Count
             $query = "SELECT * FROM posts WHERE post_status = 'draft'";
             $draft_post_query = mysqli_query($connection, $query);
@@ -166,9 +170,9 @@
                             ['Data', 'Count'],
                             <?php
                             //  For Graph Elements
-                            $element_title = ['All Posts', 'Draft Post', 'All Comments', 'Unapproved', 'All Users', 'Subscribers', 'Categories'];
-                            $element_count = [$post_count, $draft_count, $comment_count, $unapproved_count, $user_count, $subscriber_count, $category_count];
-                            for ($i = 0; $i < 7; $i++) {
+                            $element_title = ['All Posts', 'Published Post', 'Draft Post', 'All Comments', 'Unapproved', 'All Users', 'Subscribers', 'Categories'];
+                            $element_count = [$post_count, $published_count, $draft_count, $comment_count, $unapproved_count, $user_count, $subscriber_count, $category_count];
+                            for ($i = 0; $i < 8; $i++) {
                                 echo "['$element_title[$i]', $element_count[$i]],";
                             }
 

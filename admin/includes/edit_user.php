@@ -31,7 +31,7 @@ if (isset($_POST['edit_user'])) {
     if (!$edit_user_query) {
         die('QUERY FAILED' . mysqli_error($connection));
     }
-    echo "User Successfully Updated: <a href='admin_users.php'>View Users</a>";
+    echo "<p class='text-success'>User Successfully Updated: <a href='admin_users.php'>View Users</a></p>";
 }
 
 

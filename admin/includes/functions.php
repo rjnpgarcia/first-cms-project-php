@@ -19,7 +19,7 @@ function createCategory()
         $cat_title = $_POST['cat_title'];
 
         if ($cat_title == "" || empty($cat_title)) {
-            echo "This field should not be empty";
+            echo "<p class='text-danger'>This field should not be empty</p>";
         } else {
             $query = "INSERT INTO categories(cat_title) VALUE ('$cat_title')";
             $create_category_query = mysqli_query($connection, $query);

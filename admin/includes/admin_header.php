@@ -30,6 +30,10 @@ include "includes/functions.php";
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Summernote CSS -->
+    <!-- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/summernote.css">
+
     <!-- Custom CSS -->
     <link href="css/sb-admin.css" rel="stylesheet">
 

@@ -12,6 +12,7 @@ if (isset($_GET['p_id'])) {
         $post_image = $row['post_image'];
         $post_tags = $row['post_tags'];
         $post_content = $row['post_content'];
+        $post_id = $row['post_id'];
     }
 }
 
@@ -42,7 +43,7 @@ if (isset($_POST['update_post'])) {
 
     $update_post = mysqli_query($connection, $query);
     confirmQuery($update_post);
-    echo "Post Successfully Updated: <a href='../admin/admin_posts.php'>View Posts</a>";
+    echo "<p class='text-success'>Post Successfully Updated: <a href='../post.php?p_id=$post_id'>View post</a> or <a href='../admin/admin_posts.php'>Edit more posts</a></p>";
 }
 ?>
 <form action="" method="post" enctype="multipart/form-data">
@@ -93,8 +94,8 @@ if (isset($_POST['update_post'])) {
         <input type="text" name="post_tags" class="form-control" value="<?php echo "$post_tags"; ?>">
     </div>
     <div class=" form-group">
-        <label for="post_content">Post Content</label>
-        <textarea name="post_content" class="form-control" id="" cols="30" rows="10"><?php echo "$post_content"; ?></textarea>
+        <label for="summernote">Post Content</label>
+        <textarea name="post_content" class="form-control" id="summernote" cols="30" rows="10"><?php echo "$post_content"; ?></textarea>
     </div>
     <div class="form-group">
         <input type="submit" class="btn btn-primary" name="update_post" value="Update Post">

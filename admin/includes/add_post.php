@@ -21,7 +21,7 @@ if (isset($_POST['create_post'])) {
     if (!$create_post_query) {
         die("QUERY FAILED" . mysqli_error($connection));
     }
-    echo "Post Successfully Added: <a href='../admin/admin_posts.php'>View Posts</a>";
+    echo "<p class='text-success'>Post Successfully Added: <a href='../admin/admin_posts.php'>View Posts</a></p>";
 }
 
 ?>
@@ -66,8 +66,8 @@ if (isset($_POST['create_post'])) {
         <input type="text" name="post_tags" class="form-control">
     </div>
     <div class="form-group">
-        <label for="post_content">Post Content</label>
-        <textarea name="post_content" class="form-control" id="" cols="30" rows="10"></textarea>
+        <label for="summernote">Post Content</label>
+        <textarea name="post_content" class="form-control" id="summernote" cols="30" rows="10"></textarea>
     </div>
     <div class="form-group">
         <input type="submit" class="btn btn-primary" name="create_post" value="Publish Post">
