@@ -2,7 +2,7 @@
     // for Bulk Options Query
     if (isset($_POST['checkBoxArray'])) {
         foreach ($_POST['checkBoxArray'] as $checkBoxValue) {
-            echo "$checkBoxValue";
+            $bulk_option = $_POST['bulk_option'];
         }
     }
 
@@ -13,11 +13,11 @@
      <table class="table table-bordered table-hover">
          <!-- Bulk Options Selector -->
          <div id="bulkOptionContainer" class="col-xs-4">
-             <select name="bulk_options" id="" class="form-control">
+             <select name="bulk_option" id="" class="form-control">
                  <option value="">Select Options</option>
-                 <option value="">Publish</option>
-                 <option value="">Draft</option>
-                 <option value="">Delete</option>
+                 <option value="published">Publish</option>
+                 <option value="draft">Draft</option>
+                 <option value="delete">Delete</option>
              </select>
          </div>
          <div class="col-xs-4">
