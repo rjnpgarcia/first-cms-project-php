@@ -47,7 +47,7 @@ if (isset($_POST['edit_profile'])) {
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Welcome to ADMIN
-                        <small>Administrator</small>
+                        <small><?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></small>
                     </h1>
 
                     <form action="" method="post" enctype="multipart/form-data">

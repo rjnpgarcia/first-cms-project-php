@@ -15,7 +15,7 @@
                 <div class="col-lg-12">
                     <h1 class="page-header">
                         Welcome to ADMIN
-                        <small>Administrator</small>
+                        <small><?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></small>
                     </h1>
                     <div class="col-xs-6">
                         <!-- Create Category Query-->

@@ -60,20 +60,23 @@
                 $comment_author = $_POST['comment_author'];
                 $comment_email = $_POST['comment_email'];
                 $comment_content = $_POST['comment_content'];
+                if (!empty($comment_author) && !empty($comment_email) && !empty($comment_content)) {
+                    $query = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) VALUES ($post, '$comment_author', '$comment_email', '$comment_content', 'unapproved', now())";
 
-                $query = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) VALUES ($post, '$comment_author', '$comment_email', '$comment_content', 'unapproved', now())";
-
-                $create_comment = mysqli_query($connection, $query);
-                if ($create_comment) {
-                    echo "Comment Successfully Submitted";
+                    $create_comment = mysqli_query($connection, $query);
+                    if ($create_comment) {
+                        echo "Comment Successfully Submitted";
+                    } else {
+                        die("QUERY FAILED" . mysqli_error($connection));
+                    }
+                    //  QUERY FOR COMMENT COUNT
+                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $post";
+                    $update_comment_count = mysqli_query($connection, $query);
+                    if (!$update_comment_count) {
+                        die("QUERY FAILED" . mysqli_error($connection));
+                    }
                 } else {
-                    die("QUERY FAILED" . mysqli_error($connection));
-                }
-                //  QUERY FOR COMMENT COUNT
-                $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $post";
-                $update_comment_count = mysqli_query($connection, $query);
-                if (!$update_comment_count) {
-                    die("QUERY FAILED" . mysqli_error($connection));
+                    echo "<script>alert('Fields cannot be empty')</script>";
                 }
             }
 

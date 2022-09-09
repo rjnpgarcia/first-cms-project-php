@@ -21,7 +21,8 @@ if (isset($_POST['create_post'])) {
     if (!$create_post_query) {
         die("QUERY FAILED" . mysqli_error($connection));
     }
-    echo "<p class='text-success'>Post Successfully Added: <a href='../admin/admin_posts.php'>View Posts</a></p>";
+    $the_post_id = mysqli_insert_id($connection);
+    echo "<p class='text-success'>Post Successfully Added: <a href='../post.php?p_id=$the_post_id'>View Post</a> or <a href='../admin/admin_posts.php'>Edit More Posts</a></p>";
 }
 
 ?>

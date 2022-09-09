@@ -36,6 +36,7 @@
                  <option value="draft">Draft</option>
                  <option value="delete">Delete</option>
              </select>
+
          </div>
          <div class="col-xs-4">
              <input type="submit" name="submit" class="btn btn-success" value="Apply"> <a href="../admin/admin_posts.php?source=add_post" class="btn btn-primary">Add New Post</a>
@@ -52,7 +53,7 @@
                  <th>Tags</th>
                  <th>Comments</th>
                  <th>Date</th>
-                 <th colspan="2">Options</th>
+                 <th colspan="3">Options</th>
              </tr>
          </thead>
          <tbody>
@@ -88,6 +89,7 @@
                     echo "<td>$post_tags</td>";
                     echo "<td>$post_comment_count</td>";
                     echo "<td>$post_date</td>";
+                    echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";
                     echo "<td><a href='admin_posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
                     echo "<td><a href='admin_posts.php?delete=$post_id'>Delete</a></td>";
                     echo "</tr>";
