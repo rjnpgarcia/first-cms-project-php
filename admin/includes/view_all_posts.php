@@ -1,8 +1,25 @@
  <?php
     // for Bulk Options Query
     if (isset($_POST['checkBoxArray'])) {
-        foreach ($_POST['checkBoxArray'] as $checkBoxValue) {
+        foreach ($_POST['checkBoxArray'] as $checkBoxPostId) {
             $bulk_option = $_POST['bulk_option'];
+            switch ($bulk_option) {
+                case "published":
+                    $query = "UPDATE posts SET post_status = '$bulk_option' WHERE post_id = $checkBoxPostId";
+                    $published_query = mysqli_query($connection, $query);
+                    confirmQuery($published_query);
+                    break;
+                case "draft":
+                    $query = "UPDATE posts SET post_status = '$bulk_option' WHERE post_id = $checkBoxPostId";
+                    $draft_query = mysqli_query($connection, $query);
+                    confirmQuery($draft_query);
+                    break;
+                case "delete":
+                    $query = "DELETE FROM posts WHERE post_id = $checkBoxPostId";
+                    $delete_query = mysqli_query($connection, $query);
+                    confirmQuery($delete_query);
+                    break;
+            }
         }
     }
 
