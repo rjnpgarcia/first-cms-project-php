@@ -20,6 +20,9 @@
                     $cat_title = $row['cat_title'];
                     echo "<li><a href='#'>$cat_title</a></li>";
                 }
+                ?>
+                <li><a href="registration.php">Registration</a></li>
+                <?php
                 // NAV LINKS if logged in
                 if (isset($_SESSION['user_role'])) {
                     echo "<li><a href='admin'>Admin</a></li>";
