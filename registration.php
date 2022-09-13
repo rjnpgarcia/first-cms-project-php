@@ -14,7 +14,7 @@ if (isset($_POST['submit'])) {
         $email = mysqli_real_escape_string($connection, $email);
         $password = mysqli_real_escape_string($connection, $password);
 
-        // randSalt query for password encrypt
+        // randSalt query and password encrypt
         $query = "SELECT randSalt FROM users";
         $select_randsalt_query = mysqli_query($connection, $query);
         if (!$select_randsalt_query) {

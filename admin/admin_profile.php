@@ -23,7 +23,17 @@ if (isset($_POST['edit_profile'])) {
     $user_password = $_POST['user_password'];
     $user_email = $_POST['user_email'];
 
-    $query = "UPDATE users SET user_firstname = '$user_firstname', user_lastname = '$user_lastname', user_role = '$user_role', username = '$username', user_password = '$user_password', user_email = '$user_email' WHERE user_id = '$user_id'";
+    // new password encryption
+    $query = "SELECT randSalt FROM users";
+    $select_randsalt_query = mysqli_query($connection, $query);
+    if (!$select_randsalt_query) {
+        die('QUERY FAILED' . mysqli_error($connection));
+    }
+    $row = mysqli_fetch_array($select_randsalt_query);
+    $salt = $row['randSalt'];
+    $hashed_password = crypt($user_password, $salt);
+
+    $query = "UPDATE users SET user_firstname = '$user_firstname', user_lastname = '$user_lastname', user_role = '$user_role', username = '$username', user_password = '$hashed_password', user_email = '$user_email' WHERE user_id = '$user_id'";
 
     $edit_user_query = mysqli_query($connection, $query);
 
@@ -52,6 +62,11 @@ if (isset($_POST['edit_profile'])) {
 
                     <form action="" method="post" enctype="multipart/form-data">
                         <div class="form-group">
+                            <?php
+                            if (!empty($edit_user_query)) {
+                                echo "<p class='text-success'>Profile Successfully Updated: <a href='admin_users.php'>View Users</a></p>";
+                            }
+                            ?>
                             <label for="user_firstname">Firstname</label>
                             <input type="text" name="user_firstname" class="form-control" value="<?php echo $user_firstname; ?>">
                         </div>

@@ -44,7 +44,7 @@ function findAllCategory()
         echo "<tr>";
         echo "<td>$cat_id</td>";
         echo "<td>$cat_title</td>";
-        echo "<td><a href='admin_categories.php?delete=$cat_id'>Delete</a></td>";
+        echo "<td><a onClick=\" javascript: return confirm('Delete confirm?'); \" href='admin_categories.php?delete=$cat_id'>Delete</a></td>";
         echo "<td><a href='admin_categories.php?edit=$cat_id'>Edit</a>";
         echo "</tr>";
     }

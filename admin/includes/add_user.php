@@ -8,7 +8,17 @@ if (isset($_POST['create_user'])) {
     $user_password = $_POST['user_password'];
     $user_email = $_POST['user_email'];
 
-    $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_email, user_password) VALUES ('$user_firstname', '$user_lastname', '$user_role', '$username', '$user_email', '$user_password')";
+    // new password encryption
+    $query = "SELECT randSalt FROM users";
+    $select_randsalt_query = mysqli_query($connection, $query);
+    if (!$select_randsalt_query) {
+        die('QUERY FAILED' . mysqli_error($connection));
+    }
+    $row = mysqli_fetch_array($select_randsalt_query);
+    $salt = $row['randSalt'];
+    $hashed_password = crypt($user_password, $salt);
+
+    $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_email, user_password) VALUES ('$user_firstname', '$user_lastname', '$user_role', '$username', '$user_email', '$hashed_password')";
     $create_user_query = mysqli_query($connection, $query);
     confirmQuery($create_user_query);
     echo "<p class='text-success'>User Successfully Added: <a href='admin_users.php'>View Users</a></p>";
