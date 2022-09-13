@@ -19,6 +19,28 @@
                     $delete_query = mysqli_query($connection, $query);
                     confirmQuery($delete_query);
                     break;
+                case "clone":
+                    $query = "SELECT * FROM posts WHERE post_id = $checkBoxPostId";
+                    $select_clone_query = mysqli_query($connection, $query);
+                    while ($row = mysqli_fetch_assoc($select_clone_query)) {
+                        $post_author = $row['post_author'];
+                        $post_title = $row['post_title'];
+                        $post_category_id = $row['post_category_id'];
+                        $post_status = $row['post_status'];
+                        $post_image = $row['post_image'];
+                        $post_tags = $row['post_tags'];
+                        $post_date = $row['post_date'];
+                    }
+                    $query = "INSERT INTO posts(post_author, post_title, post_category_id, post_status, post_image, post_tags, post_date) VALUES ('$post_author', '$post_title', '$post_category_id', '$post_status', '$post_image', '$post_tags', now())";
+                    $clone_query = mysqli_query($connection, $query);
+                    confirmQuery($clone_query);
+                    break;
+
+                case "reset":
+                    $query = "UPDATE posts SET post_view_count = 0 WHERE post_id = $checkBoxPostId";
+                    $reset_view_query = mysqli_query($connection, $query);
+                    confirmQuery($reset_view_query);
+                    break;
             }
         }
     }
@@ -35,11 +57,13 @@
                  <option value="published">Publish</option>
                  <option value="draft">Draft</option>
                  <option value="delete">Delete</option>
+                 <option value="clone">Clone</option>
+                 <option value="reset">Reset Views</option>
              </select>
 
          </div>
          <div class="col-xs-4">
-             <input type="submit" name="submit" class="btn btn-success" value="Apply"> <a href="../admin/admin_posts.php?source=add_post" class="btn btn-primary">Add New Post</a>
+             <input onclick="return confirm('Confirm Action?')" type="submit" name="submit" class="btn btn-success" value="Apply"> <a href="../admin/admin_posts.php?source=add_post" class="btn btn-primary">Add New Post</a>
          </div>
          <thead>
              <tr>
@@ -52,6 +76,7 @@
                  <th>Image</th>
                  <th>Tags</th>
                  <th>Comments</th>
+                 <th>Views</th>
                  <th>Date</th>
                  <th colspan="3">Options</th>
              </tr>
@@ -59,7 +84,7 @@
          <tbody>
              <?php
                 //  READ QUERY
-                $query = "SELECT * FROM posts";
+                $query = "SELECT * FROM posts ORDER BY post_id DESC";
                 $select_posts = mysqli_query($connection, $query);
                 while ($row = mysqli_fetch_assoc($select_posts)) {
                     $post_id = $row['post_id'];
@@ -70,6 +95,7 @@
                     $post_image = $row['post_image'];
                     $post_tags = $row['post_tags'];
                     $post_comment_count = $row['post_comment_count'];
+                    $post_view_count = $row['post_view_count'];
                     $post_date = $row['post_date'];
 
                     //  TO DISPLAY CATEGORY
@@ -88,6 +114,7 @@
                     echo "<td><img width='100px' src='../images/$post_image' alt='post image'></td>";
                     echo "<td>$post_tags</td>";
                     echo "<td>$post_comment_count</td>";
+                    echo "<td>$post_view_count</td>";
                     echo "<td>$post_date</td>";
                     echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";
                     echo "<td><a href='admin_posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";

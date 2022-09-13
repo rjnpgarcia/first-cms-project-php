@@ -18,18 +18,19 @@
 
             <!-- First Blog Post -->
             <?php
-            $query = "SELECT * FROM posts ORDER BY post_id DESC";
-            $selectAllPosts = mysqli_query($connection, $query);
-            while ($row = mysqli_fetch_assoc($selectAllPosts)) {
-                $post_id = $row['post_id'];
-                $post_title = $row['post_title'];
-                $post_author = $row['post_author'];
-                $post_date = $row['post_date'];
-                $post_image = $row['post_image'];
-                $post_content = substr($row['post_content'], 0, 200);
-                $post_status = $row['post_status'];
+            if (isset($_GET['author'])) {
+                // $the_post_id = $_GET['p_id'];
+                $author = $_GET['author'];
 
-                if ($post_status === 'published') {
+                $query = "SELECT * FROM posts WHERE post_author = '$author'";
+                $selectAllPosts = mysqli_query($connection, $query);
+                while ($row = mysqli_fetch_assoc($selectAllPosts)) {
+                    $post_id = $row['post_id'];
+                    $post_title = $row['post_title'];
+                    $post_author = $row['post_author'];
+                    $post_date = $row['post_date'];
+                    $post_image = $row['post_image'];
+                    $post_content = substr($row['post_content'], 0, 200);
             ?>
                     <h2>
                         <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
@@ -51,6 +52,7 @@
                 }
             }
             ?>
+
 
         </div>
 
