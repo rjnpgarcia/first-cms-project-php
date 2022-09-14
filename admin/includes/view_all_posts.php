@@ -30,8 +30,9 @@
                         $post_image = $row['post_image'];
                         $post_tags = $row['post_tags'];
                         $post_date = $row['post_date'];
+                        $post_content = $row['post_content'];
                     }
-                    $query = "INSERT INTO posts(post_author, post_title, post_category_id, post_status, post_image, post_tags, post_date) VALUES ('$post_author', '$post_title', '$post_category_id', '$post_status', '$post_image', '$post_tags', now())";
+                    $query = "INSERT INTO posts(post_author, post_title, post_category_id, post_status, post_image, post_tags, post_date, post_content) VALUES ('$post_author', '$post_title', '$post_category_id', '$post_status', '$post_image', '$post_tags', now(), '$post_content')";
                     $clone_query = mysqli_query($connection, $query);
                     confirmQuery($clone_query);
                     break;

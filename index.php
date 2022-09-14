@@ -18,7 +18,27 @@
 
             <!-- First Blog Post -->
             <?php
-            $query = "SELECT * FROM posts ORDER BY post_id DESC";
+            // Pagination query
+            $per_page = 4;
+
+            if (isset($_GET['page'])) {
+                $page = $_GET['page'];
+            } else {
+                $page = "";
+            }
+            if ($page === "" || $page === 1) {
+                $page_1 = 0;
+            } else {
+                $page_1 = ($page * $per_page) - $per_page;
+            }
+
+            $post_count_query = "SELECT * FROM posts";
+            $find_count = mysqli_query($connection, $post_count_query);
+            $post_count = (mysqli_num_rows($find_count));
+            $post_count = ceil($post_count / $per_page);
+
+            // Display all posts query
+            $query = "SELECT * FROM posts ORDER BY post_id DESC LIMIT $page_1, $per_page";
             $selectAllPosts = mysqli_query($connection, $query);
             while ($row = mysqli_fetch_assoc($selectAllPosts)) {
                 $post_id = $row['post_id'];
@@ -51,7 +71,18 @@
                 }
             }
             ?>
-
+            <!-- Pagination links -->
+            <ul class="pagination">
+                <?php
+                for ($i = 1; $i <= $post_count; $i++) {
+                    if ($i == $page || ($i == 1 && $page == null)) {
+                        echo "<li class='active'><a href='index.php?page=$i'>$i</a></li>";
+                    } else {
+                        echo "<li><a href='index.php?page=$i'>$i</a></li>";
+                    }
+                }
+                ?>
+            </ul>
         </div>
 
 
