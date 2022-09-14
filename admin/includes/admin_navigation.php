@@ -11,6 +11,7 @@
     </div>
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
+        <li><a href="">Users online: <span class="usersonline"></span></a></li>
         <li><a href="../index.php">Home Page</a></li>
 
         <!-- Dropdown for site options -->
