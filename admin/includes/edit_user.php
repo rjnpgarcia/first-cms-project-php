@@ -13,39 +13,48 @@ if (isset($_GET['u_id'])) {
         $user_email = $row['user_email'];
         $user_password = $row['user_password'];
     }
-}
 
-//  UPDATE USER QUERY
-if (isset($_POST['edit_user'])) {
-    $user_firstname = $_POST['user_firstname'];
-    $user_lastname = $_POST['user_lastname'];
-    $user_role = $_POST['user_role'];
-    $username = $_POST['username'];
-    $user_password = $_POST['user_password'];
-    $user_email = $_POST['user_email'];
 
-    // new password encryption
-    $query = "SELECT randSalt FROM users";
-    $select_randsalt_query = mysqli_query($connection, $query);
-    if (!$select_randsalt_query) {
-        die('QUERY FAILED' . mysqli_error($connection));
+    //  UPDATE USER QUERY
+    if (isset($_POST['edit_user'])) {
+        $new_user_firstname = $_POST['user_firstname'];
+        $new_user_lastname = $_POST['user_lastname'];
+        $new_user_role = $_POST['user_role'];
+        $new_username = $_POST['username'];
+        $new_user_password = $_POST['user_password'];
+        $new_user_email = $_POST['user_email'];
+
+        // (OLD SYSTEM) password encryption
+        // $query = "SELECT randSalt FROM users";
+        // $select_randsalt_query = mysqli_query($connection, $query);
+        // if (!$select_randsalt_query) {
+        //     die('QUERY FAILED' . mysqli_error($connection));
+        // }
+        // $row = mysqli_fetch_array($select_randsalt_query);
+        // $salt = $row['randSalt'];
+        // $hashed_password = crypt($user_password, $salt);
+
+        // NEW SYSTEM password encryption
+        if (empty($new_user_password) || $new_user_password === $user_password) {
+            $new_user_password = $user_password;
+        } else {
+            $new_user_password = password_hash($new_user_password, PASSWORD_BCRYPT, ['cost' => 10]);
+        }
+
+
+
+        $query = "UPDATE users SET user_firstname = '$new_user_firstname', user_lastname = '$new_user_lastname', user_role = '$new_user_role', username = '$new_username', user_password = '$new_user_password', user_email = '$new_user_email' WHERE user_id = $user_id_edit";
+
+        $edit_user_query = mysqli_query($connection, $query);
+
+        if (!$edit_user_query) {
+            die('QUERY FAILED' . mysqli_error($connection));
+        }
+        echo "<p class='text-success'>User Successfully Updated: <a href='admin_users.php'>View Users</a></p>";
     }
-    $row = mysqli_fetch_array($select_randsalt_query);
-    $salt = $row['randSalt'];
-    $hashed_password = crypt($user_password, $salt);
-
-
-    $query = "UPDATE users SET user_firstname = '$user_firstname', user_lastname = '$user_lastname', user_role = '$user_role', username = '$username', user_password = '$hashed_password', user_email = '$user_email' WHERE user_id = $user_id_edit";
-
-    $edit_user_query = mysqli_query($connection, $query);
-
-    if (!$edit_user_query) {
-        die('QUERY FAILED' . mysqli_error($connection));
-    }
-    echo "<p class='text-success'>User Successfully Updated: <a href='admin_users.php'>View Users</a></p>";
+} else {
+    header('Location: ../admin/index.php');
 }
-
-
 ?>
 
 <form action="" method="post" enctype="multipart/form-data">

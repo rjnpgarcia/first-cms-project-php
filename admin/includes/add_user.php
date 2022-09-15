@@ -8,15 +8,18 @@ if (isset($_POST['create_user'])) {
     $user_password = $_POST['user_password'];
     $user_email = $_POST['user_email'];
 
-    // new password encryption
-    $query = "SELECT randSalt FROM users";
-    $select_randsalt_query = mysqli_query($connection, $query);
-    if (!$select_randsalt_query) {
-        die('QUERY FAILED' . mysqli_error($connection));
-    }
-    $row = mysqli_fetch_array($select_randsalt_query);
-    $salt = $row['randSalt'];
-    $hashed_password = crypt($user_password, $salt);
+    // (OLD SYSTEM) password encryption
+    // $query = "SELECT randSalt FROM users";
+    // $select_randsalt_query = mysqli_query($connection, $query);
+    // if (!$select_randsalt_query) {
+    //     die('QUERY FAILED' . mysqli_error($connection));
+    // }
+    // $row = mysqli_fetch_array($select_randsalt_query);
+    // $salt = $row['randSalt'];
+    // $hashed_password = crypt($user_password, $salt);
+
+    // NEW SYSTEM password encryption
+    $hashed_password = password_hash($user_password, PASSWORD_BCRYPT, ['cost' => 10]);
 
     $query = "INSERT INTO users(user_firstname, user_lastname, user_role, username, user_email, user_password) VALUES ('$user_firstname', '$user_lastname', '$user_role', '$username', '$user_email', '$hashed_password')";
     $create_user_query = mysqli_query($connection, $query);

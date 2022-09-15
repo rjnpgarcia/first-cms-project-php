@@ -8,7 +8,6 @@ if (isset($_SESSION['user_id'])) {
     while ($row = mysqli_fetch_array($select_user_profile_query)) {
         $user_firstname = $row['user_firstname'];
         $user_lastname = $row['user_lastname'];
-        $user_role = $row['user_role'];
         $username = $row['username'];
         $user_email = $row['user_email'];
         $user_password = $row['user_password'];
@@ -16,24 +15,30 @@ if (isset($_SESSION['user_id'])) {
 }
 // Update Query for User Profile
 if (isset($_POST['edit_profile'])) {
-    $user_firstname = $_POST['user_firstname'];
-    $user_lastname = $_POST['user_lastname'];
-    $user_role = $_POST['user_role'];
-    $username = $_POST['username'];
-    $user_password = $_POST['user_password'];
-    $user_email = $_POST['user_email'];
+    $new_user_firstname = $_POST['user_firstname'];
+    $new_user_lastname = $_POST['user_lastname'];
+    $new_username = $_POST['username'];
+    $new_user_password = $_POST['user_password'];
+    $new_user_email = $_POST['user_email'];
 
-    // new password encryption
-    $query = "SELECT randSalt FROM users";
-    $select_randsalt_query = mysqli_query($connection, $query);
-    if (!$select_randsalt_query) {
-        die('QUERY FAILED' . mysqli_error($connection));
+    // (OLD SYSTEM) new password encryption
+    // $query = "SELECT randSalt FROM users";
+    // $select_randsalt_query = mysqli_query($connection, $query);
+    // if (!$select_randsalt_query) {
+    //     die('QUERY FAILED' . mysqli_error($connection));
+    // }
+    // $row = mysqli_fetch_array($select_randsalt_query);
+    // $salt = $row['randSalt'];
+    // $hashed_password = crypt($user_password, $salt);
+
+    // NEW SYSTEM password encryption
+    if (empty($new_user_password) || $new_user_password === $user_password) {
+        $new_user_password = $user_password;
+    } else {
+        $new_user_password = password_hash($new_user_password, PASSWORD_BCRYPT, ['cost' => 10]);
     }
-    $row = mysqli_fetch_array($select_randsalt_query);
-    $salt = $row['randSalt'];
-    $hashed_password = crypt($user_password, $salt);
 
-    $query = "UPDATE users SET user_firstname = '$user_firstname', user_lastname = '$user_lastname', user_role = '$user_role', username = '$username', user_password = '$hashed_password', user_email = '$user_email' WHERE user_id = '$user_id'";
+    $query = "UPDATE users SET user_firstname = '$new_user_firstname', user_lastname = '$new_user_lastname', username = '$new_username', user_password = '$new_user_password', user_email = '$new_user_email' WHERE user_id = '$user_id'";
 
     $edit_user_query = mysqli_query($connection, $query);
 
@@ -73,19 +78,6 @@ if (isset($_POST['edit_profile'])) {
                         <div class="form-group">
                             <label for="user_lastname">Lastname</label>
                             <input type="text" name="user_lastname" class="form-control" value="<?php echo $user_lastname; ?>">
-                        </div>
-                        <div class="form-group">
-                            <label for="user_role">User Role</label><br>
-                            <select name="user_role" id="">
-                                <option value="<?php echo $user_role; ?>"><?php echo $user_role; ?></option>
-                                <?php
-                                if ($user_role === 'admin') {
-                                    echo "<option value='subscriber'>subscriber</option>";
-                                } else {
-                                    echo "<option value='admin'>admin</option>";
-                                }
-                                ?>
-                            </select>
                         </div>
                         <div class="form-group">
                             <label for="username">Username</label>

@@ -2,7 +2,6 @@
 // INCLUDES
 include "includes/header.php";
 include "includes/navigation.php";
-
 // Registration Form Query
 if (isset($_POST['submit'])) {
     $username = $_POST['username'];
@@ -14,15 +13,18 @@ if (isset($_POST['submit'])) {
         $email = mysqli_real_escape_string($connection, $email);
         $password = mysqli_real_escape_string($connection, $password);
 
-        // randSalt query and password encrypt
-        $query = "SELECT randSalt FROM users";
-        $select_randsalt_query = mysqli_query($connection, $query);
-        if (!$select_randsalt_query) {
-            die('QUERY FAILED' . mysqli_error($connection));
-        }
-        $row = mysqli_fetch_array($select_randsalt_query);
-        $salt = $row['randSalt'];
-        $password = crypt($password, $salt);
+        // NEW SYSTEM for Password Encrytion
+        $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
+
+        // (OLD SYSTEM) randSalt query and password encrypt
+        // $query = "SELECT randSalt FROM users";
+        // $select_randsalt_query = mysqli_query($connection, $query);
+        // if (!$select_randsalt_query) {
+        //     die('QUERY FAILED' . mysqli_error($connection));
+        // }
+        // $row = mysqli_fetch_array($select_randsalt_query);
+        // $salt = $row['randSalt'];
+        // $password = crypt($password, $salt);
 
 
         // CREATE registration query
@@ -88,7 +90,7 @@ if (isset($_POST['submit'])) {
                                 <input type="password" name="password" id="key" class="form-control" placeholder="Password">
                             </div>
 
-                            <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">
+                            <input type="submit" name="submit" id="btn-login" class="btn btn-info btn-lg btn-block" value="Register">
                         </form>
 
                     </div>
