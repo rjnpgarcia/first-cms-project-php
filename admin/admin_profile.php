@@ -15,11 +15,11 @@ if (isset($_SESSION['user_id'])) {
 }
 // Update Query for User Profile
 if (isset($_POST['edit_profile'])) {
-    $new_user_firstname = $_POST['user_firstname'];
-    $new_user_lastname = $_POST['user_lastname'];
-    $new_username = $_POST['username'];
-    $new_user_password = $_POST['user_password'];
-    $new_user_email = $_POST['user_email'];
+    $new_user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+    $new_user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+    $new_username = mysqli_real_escape_string($connection, $_POST['username']);
+    $new_user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
+    $new_user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
 
     // (OLD SYSTEM) new password encryption
     // $query = "SELECT randSalt FROM users";

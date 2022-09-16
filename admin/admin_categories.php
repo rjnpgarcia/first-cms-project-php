@@ -32,7 +32,7 @@
                         <!-- Edit Category -->
                         <?php
                         if (isset($_GET['edit'])) {
-                            $cat_id = $_GET['edit'];
+                            $cat_id = mysqli_real_escape_string($connection, $_GET['edit']);
                             include "includes/admin_update_categories.php";
                         }
                         ?>

@@ -20,8 +20,8 @@
             <!-- For Search Engine -->
             <?php
             if (isset($_POST['submit'])) {
-                $search = $_POST['search'];
-                $query = "SELECT * FROM posts WHERE post_tags LIKE '%$search%'";
+                $search = mysqli_real_escape_string($connection, $_POST['search']);
+                $query = "SELECT * FROM posts WHERE post_tags LIKE '%$search%' ORDER BY post_id DESC";
                 $searchQuery = mysqli_query($connection, $query);
 
                 if (!$searchQuery) {

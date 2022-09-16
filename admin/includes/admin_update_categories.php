@@ -4,7 +4,7 @@
         <label for="cat-title">Edit Category</label>
         <?php
         if (isset($_GET['edit'])) {
-            $cat_id = $_GET['edit'];
+            $cat_id = mysqli_real_escape_string($connection, $_GET['edit']);
             $query = "SELECT * FROM categories WHERE cat_id = '$cat_id'";
             $select_cat_title = mysqli_query($connection, $query);
 
@@ -18,7 +18,7 @@
 
         <?php }
             if (isset($_POST['update_category'])) {
-                $cat_title_update = $_POST['cat_title'];
+                $cat_title_update = mysqli_real_escape_string($connection, $_POST['cat_title']);
                 $query = "UPDATE categories SET cat_title = '$cat_title_update' WHERE cat_id = '$cat_id'";
                 $cat_update_query = mysqli_query($connection, $query);
                 if (!$cat_update_query) {

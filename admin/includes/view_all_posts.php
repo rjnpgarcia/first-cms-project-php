@@ -2,7 +2,7 @@
     // for Bulk Options Query
     if (isset($_POST['checkBoxArray'])) {
         foreach ($_POST['checkBoxArray'] as $checkBoxPostId) {
-            $bulk_option = $_POST['bulk_option'];
+            $bulk_option = mysqli_real_escape_string($connection, $_POST['bulk_option']);
             switch ($bulk_option) {
                 case "published":
                     $query = "UPDATE posts SET post_status = '$bulk_option' WHERE post_id = $checkBoxPostId";
@@ -95,7 +95,6 @@
                     $post_status = $row['post_status'];
                     $post_image = $row['post_image'];
                     $post_tags = $row['post_tags'];
-                    $post_comment_count = $row['post_comment_count'];
                     $post_view_count = $row['post_view_count'];
                     $post_date = $row['post_date'];
 
@@ -105,6 +104,17 @@
                     while ($row = mysqli_fetch_assoc($select_category)) {
                         $cat_title = $row['cat_title'];
                     }
+
+                    // NEW query for post comment count
+                    $query = "SELECT * FROM comments WHERE comment_post_id = $post_id";
+                    $comment_count_query = mysqli_query($connection, $query);
+                    confirmQuery($comment_count_query);
+                    $post_comment_count = mysqli_num_rows($comment_count_query);
+
+                    $send_query = "UPDATE posts SET post_comment_count = $post_comment_count WHERE post_id = $post_id";
+                    $comment_count = mysqli_query($connection, $send_query);
+                    confirmQuery($comment_count);
+
                     echo "<tr>";
                     echo "<td><input type='checkbox' name='checkBoxArray[]' class='checkBoxes' value='$post_id'></td>";
                     echo "<td>$post_id</td>";
@@ -114,7 +124,8 @@
                     echo "<td>$post_status</td>";
                     echo "<td><img width='100px' src='../images/$post_image' alt='post image'></td>";
                     echo "<td>$post_tags</td>";
-                    echo "<td>$post_comment_count</td>";
+
+                    echo "<td><a href='admin_comments.php?source=post_comments&c_id=$post_id'>$post_comment_count</a></td>";
                     echo "<td>$post_view_count</td>";
                     echo "<td>$post_date</td>";
                     echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";

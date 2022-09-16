@@ -13,7 +13,7 @@
     </thead>
     <tbody>
         <?php
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM users ORDER BY user_id DESC";
         $select_users = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_assoc($select_users)) {
             $user_id = $row['user_id'];
@@ -43,7 +43,7 @@
         //  CHANGE USER ROLE QUERY (Admin / Subscriber)
         // ADMIN
         if (isset($_GET['change_to_admin'])) {
-            $user_id_admin = $_GET['change_to_admin'];
+            $user_id_admin = mysqli_real_escape_string($connection, $_GET['change_to_admin']);
             $query = "UPDATE users SET user_role = 'admin' WHERE user_id = $user_id_admin";
             mysqli_query($connection, $query);
             header('Location: admin_users.php');
@@ -51,7 +51,7 @@
 
         // SUBSCRIBER
         if (isset($_GET['change_to_sub'])) {
-            $user_id_sub = $_GET['change_to_sub'];
+            $user_id_sub = mysqli_real_escape_string($connection, $_GET['change_to_sub']);
             $query = "UPDATE users SET user_role = 'subscriber' WHERE user_id = $user_id_sub";
             mysqli_query($connection, $query);
             header('Location: admin_users.php');
@@ -60,7 +60,7 @@
 
         //  DELETE USER QUERY
         if (isset($_GET['delete'])) {
-            $user_id_delete = $_GET['delete'];
+            $user_id_delete = mysqli_real_escape_string($connection, $_GET['delete']);
             $query = "DELETE FROM users WHERE user_id = $user_id_delete";
             mysqli_query($connection, $query);
             header('Location: admin_users.php');

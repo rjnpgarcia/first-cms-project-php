@@ -27,8 +27,8 @@
                 if (isset($_SESSION['user_role'])) {
                     echo "<li><a href='admin'>Admin</a></li>";
                     if (isset($_GET['p_id'])) {
-                        $the_post_id = $_GET['p_id'];
-                        echo "<li><a href='admin/admin_post.php?source=edit_post&p_id=$the_post_id'>Edit Post</a></li>";
+                        $the_post_id = mysqli_real_escape_string($connection, $_GET['p_id']);
+                        echo "<li><a href='admin/admin_posts.php?source=edit_post&p_id=$the_post_id'>Edit Post</a></li>";
                     }
                 }
                 ?>

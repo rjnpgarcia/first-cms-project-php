@@ -1,7 +1,7 @@
 <?php
 // For READ USER QUERY
 if (isset($_GET['u_id'])) {
-    $user_id_edit = $_GET['u_id'];
+    $user_id_edit = mysqli_real_escape_string($connection, $_GET['u_id']);
 
     $query = "SELECT * FROM users WHERE user_id = $user_id_edit";
     $edit_user_query = mysqli_query($connection, $query);
@@ -17,12 +17,12 @@ if (isset($_GET['u_id'])) {
 
     //  UPDATE USER QUERY
     if (isset($_POST['edit_user'])) {
-        $new_user_firstname = $_POST['user_firstname'];
-        $new_user_lastname = $_POST['user_lastname'];
-        $new_user_role = $_POST['user_role'];
-        $new_username = $_POST['username'];
-        $new_user_password = $_POST['user_password'];
-        $new_user_email = $_POST['user_email'];
+        $new_user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+        $new_user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+        $new_user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
+        $new_username = mysqli_real_escape_string($connection, $_POST['username']);
+        $new_user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
+        $new_user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
 
         // (OLD SYSTEM) password encryption
         // $query = "SELECT randSalt FROM users";

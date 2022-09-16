@@ -20,9 +20,9 @@
             <?php
             if (isset($_GET['author'])) {
                 // $the_post_id = $_GET['p_id'];
-                $author = $_GET['author'];
+                $author = mysqli_real_escape_string($connection, $_GET['author']);
 
-                $query = "SELECT * FROM posts WHERE post_author = '$author'";
+                $query = "SELECT * FROM posts WHERE post_author = '$author' ORDER BY post_id DESC";
                 $selectAllPosts = mysqli_query($connection, $query);
                 while ($row = mysqli_fetch_assoc($selectAllPosts)) {
                     $post_id = $row['post_id'];

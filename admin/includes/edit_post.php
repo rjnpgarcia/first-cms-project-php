@@ -1,6 +1,6 @@
 <?php
 if (isset($_GET['p_id'])) {
-    $post_id_edit = $_GET['p_id'];
+    $post_id_edit = mysqli_real_escape_string($connection, $_GET['p_id']);
 
     $query = "SELECT * FROM posts WHERE post_id = $post_id_edit";
     $select_posts_edit = mysqli_query($connection, $query);
@@ -17,16 +17,15 @@ if (isset($_GET['p_id'])) {
 }
 
 if (isset($_POST['update_post'])) {
-    $post_title = $_POST['post_title'];
-    $post_category_id = $_POST['post_category_id'];
-    $post_author = $_POST['post_author'];
-    $post_status = $_POST['post_status'];
+    $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);
+    $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category_id']);
+    $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
 
     $post_image = $_FILES['post_image']['name'];
     $post_image_temp = $_FILES['post_image']['tmp_name'];
 
-    $post_tags = $_POST['post_tags'];
-    $post_content = $_POST['post_content'];
+    $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
+    $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
     $post_date = date('d-m-y');
 
     move_uploaded_file($post_image_temp, "../images/$post_image");
@@ -39,7 +38,7 @@ if (isset($_POST['update_post'])) {
         }
     }
 
-    $query = "UPDATE posts SET post_title = '$post_title', post_category_id = '$post_category_id', post_author = '$post_author', post_status = '$post_status', post_image = '$post_image', post_tags = '$post_tags', post_date = now(), post_content = '$post_content' WHERE post_id = $post_id_edit";
+    $query = "UPDATE posts SET post_title = '$post_title', post_category_id = '$post_category_id', post_status = '$post_status', post_image = '$post_image', post_tags = '$post_tags', post_date = now(), post_content = '$post_content' WHERE post_id = $post_id_edit";
 
     $update_post = mysqli_query($connection, $query);
     confirmQuery($update_post);
@@ -69,7 +68,7 @@ if (isset($_POST['update_post'])) {
     </div>
     <div class=" form-group">
         <label for="post_author">Post Author</label>
-        <input type="text" name="post_author" class="form-control" value="<?php echo "$post_author"; ?>">
+        <input type="text" name="post_author" class="form-control" value="<?php echo "$post_author"; ?>" disabled>
     </div>
     <div class=" form-group">
         <label for="post_status">Post Status</label><br>

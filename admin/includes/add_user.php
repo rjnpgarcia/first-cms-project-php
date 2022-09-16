@@ -1,12 +1,12 @@
 <?php
 //  CREATE USER QUERY
 if (isset($_POST['create_user'])) {
-    $user_firstname = $_POST['user_firstname'];
-    $user_lastname = $_POST['user_lastname'];
-    $user_role = $_POST['user_role'];
-    $username = $_POST['username'];
-    $user_password = $_POST['user_password'];
-    $user_email = $_POST['user_email'];
+    $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);
+    $user_lastname = mysqli_real_escape_string($connection, $_POST['user_lastname']);
+    $user_role = mysqli_real_escape_string($connection, $_POST['user_role']);
+    $username = mysqli_real_escape_string($connection, $_POST['username']);
+    $user_password = mysqli_real_escape_string($connection, $_POST['user_password']);
+    $user_email = mysqli_real_escape_string($connection, $_POST['user_email']);
 
     // (OLD SYSTEM) password encryption
     // $query = "SELECT randSalt FROM users";

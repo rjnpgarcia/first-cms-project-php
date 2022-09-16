@@ -19,17 +19,13 @@
                     </h1>
                     <?php
                     if (isset($_GET['source'])) {
-                        $source = $_GET['source'];
+                        $source = mysqli_real_escape_string($connection, $_GET['source']);
                     } else {
                         $source = "";
                     }
                     switch ($source) {
-                        case "add_post";
-                            include "includes/add_post.php";
-                            break;
-
-                        case "edit_post";
-                            include "includes/edit_post.php";
+                        case "post_comments":
+                            include "includes/post_comments.php";
                             break;
 
                         default:

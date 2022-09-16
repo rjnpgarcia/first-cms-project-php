@@ -16,7 +16,7 @@
     </thead>
     <tbody>
         <?php
-        $query = "SELECT * FROM comments";
+        $query = "SELECT * FROM comments ORDER BY comment_id DESC";
         $select_comments = mysqli_query($connection, $query);
         while ($row = mysqli_fetch_assoc($select_comments)) {
             $comment_id = $row['comment_id'];
@@ -55,7 +55,7 @@
         //  STATUS QUERY (Approve / Unapprove)
         // APPROVE
         if (isset($_GET['approve'])) {
-            $comment_id_approve = $_GET['approve'];
+            $comment_id_approve = mysqli_real_escape_string($connection, $_GET['approve']);
             $query = "UPDATE comments SET comment_status = 'approved' WHERE comment_id = $comment_id_approve";
             mysqli_query($connection, $query);
             header('Location: admin_comments.php');
@@ -63,7 +63,7 @@
 
         // UNAPPROVE
         if (isset($_GET['unapprove'])) {
-            $comment_id_unapprove = $_GET['unapprove'];
+            $comment_id_unapprove = mysqli_real_escape_string($connection, $_GET['unapprove']);
             $query = "UPDATE comments SET comment_status = 'unapproved' WHERE comment_id = $comment_id_unapprove";
             mysqli_query($connection, $query);
             header('Location: admin_comments.php');

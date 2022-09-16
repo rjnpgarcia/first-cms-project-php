@@ -65,11 +65,11 @@
             <!-- Comments Form -->
             <?php
             if (isset($_POST['create_comment'])) {
-                $post = $_GET['p_id'];
+                $post = mysqli_real_escape_string($connection, $_GET['p_id']);
 
-                $comment_author = $_POST['comment_author'];
-                $comment_email = $_POST['comment_email'];
-                $comment_content = $_POST['comment_content'];
+                $comment_author = mysqli_real_escape_string($connection, $_POST['comment_author']);
+                $comment_email = mysqli_real_escape_string($connection, $_POST['comment_email']);
+                $comment_content = mysqli_real_escape_string($connection, $_POST['comment_content']);
                 if (!empty($comment_author) && !empty($comment_email) && !empty($comment_content)) {
                     $query = "INSERT INTO comments (comment_post_id, comment_author, comment_email, comment_content, comment_status, comment_date) VALUES ($post, '$comment_author', '$comment_email', '$comment_content', 'unapproved', now())";
 
@@ -77,12 +77,12 @@
                     if (!$create_comment) {
                         die("QUERY FAILED" . mysqli_error($connection));
                     }
-                    //  QUERY FOR COMMENT COUNT
-                    $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $post";
-                    $update_comment_count = mysqli_query($connection, $query);
-                    if (!$update_comment_count) {
-                        die("QUERY FAILED" . mysqli_error($connection));
-                    }
+                    //  (OLD) QUERY FOR COMMENT COUNT
+                    // $query = "UPDATE posts SET post_comment_count = post_comment_count + 1 WHERE post_id = $post";
+                    // $update_comment_count = mysqli_query($connection, $query);
+                    // if (!$update_comment_count) {
+                    //     die("QUERY FAILED" . mysqli_error($connection));
+                    // }
 
                     // For Notification
                     $message = "<p class='text-success text-center'>Comment successfully submitted</p>";
@@ -92,7 +92,6 @@
             } else {
                 $message = "";
             }
-
 
             ?>
 
