@@ -39,6 +39,10 @@
                     $post_date = $row['post_date'];
                     $post_image = $row['post_image'];
                     $post_content = $row['post_content'];
+                    $post_status = $row['post_status'];
+                    if ($post_status === 'draft') {
+                        echo "<h4 class='text-danger'>Status: DRAFT</h4>";
+                    }
             ?>
                     <h2>
                         <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
