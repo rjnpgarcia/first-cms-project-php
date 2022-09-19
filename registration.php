@@ -66,7 +66,7 @@ if (isset($_POST['submit'])) {
                                     echo $message;
                                 }
                                 ?>
-                                <label for="password" class="sr-only">username</label>
+                                <label for="username" class="sr-only">username</label>
                                 <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">
                             </div>
                             <div class="form-group">

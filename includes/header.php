@@ -1,8 +1,8 @@
 <!-- Database Connection -->
 <?php
+ob_start();
 include "db.php";
 session_start();
-ob_start();
 ?>
 
 
