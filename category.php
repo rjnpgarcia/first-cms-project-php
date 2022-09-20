@@ -35,13 +35,30 @@
                     $page_1 = ($page * $per_page) - $per_page;
                 }
 
-                $post_count_query = "SELECT * FROM posts WHERE post_category_id = $post_category_id AND post_status = 'published'";
-                $find_count = mysqli_query($connection, $post_count_query);
-                $post_count = (mysqli_num_rows($find_count));
-                $post_count = ceil($post_count / $per_page);
+                // To display all (published and draft) for Admin only
+                if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+                    $post_count_query = "SELECT * FROM posts WHERE post_category_id = $post_category_id";
+                    $find_count = mysqli_query($connection, $post_count_query);
+                    $post_count = (mysqli_num_rows($find_count));
+                    if ($post_count < 1) {
+                        echo "<h1 class='text-center'>No posts available</h1>";
+                    }
+                    $post_count = ceil($post_count / $per_page);
 
-                $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id AND post_status = 'published' ORDER BY post_id DESC LIMIT $page_1, $per_page";
-                $selectAllPosts = mysqli_query($connection, $query);
+                    $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id ORDER BY post_id DESC LIMIT $page_1, $per_page";
+                    $selectAllPosts = mysqli_query($connection, $query);
+                } else {
+                    $post_count_query = "SELECT * FROM posts WHERE post_category_id = $post_category_id AND post_status = 'published'";
+                    $find_count = mysqli_query($connection, $post_count_query);
+                    $post_count = (mysqli_num_rows($find_count));
+                    if ($post_count < 1) {
+                        echo "<h1 class='text-center'>No posts available</h1>";
+                    }
+                    $post_count = ceil($post_count / $per_page);
+
+                    $query = "SELECT * FROM posts WHERE post_category_id = $post_category_id AND post_status = 'published' ORDER BY post_id DESC LIMIT $page_1, $per_page";
+                    $selectAllPosts = mysqli_query($connection, $query);
+                }
                 while ($row = mysqli_fetch_assoc($selectAllPosts)) {
                     $post_id = $row['post_id'];
                     $post_title = $row['post_title'];
@@ -50,9 +67,10 @@
                     $post_image = $row['post_image'];
                     $post_content = substr($row['post_content'], 0, 200);
                     $post_status = $row['post_status'];
-
-                    // to display published post only
-                    // if ($post_status === 'published') {
+                    // Draft post indicator
+                    if ($post_status === 'draft') {
+                        echo "<h4 class='text-danger'>Status: DRAFT</h4>";
+                    }
             ?>
                     <h2>
                         <a href="post.php?p_id=<?php echo $post_id; ?>"><?php echo $post_title; ?></a>
@@ -71,8 +89,9 @@
 
                     <hr>
             <?php
-                    // } // to display published post only
                 }
+            } else {
+                header('Location: index.php');
             }
             ?>
             <!-- Pagination links -->

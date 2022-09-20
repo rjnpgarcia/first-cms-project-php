@@ -18,6 +18,9 @@
                     $query = "DELETE FROM posts WHERE post_id = $checkBoxPostId";
                     $delete_query = mysqli_query($connection, $query);
                     confirmQuery($delete_query);
+                    $comments_delete_query = "DELETE FROM comments WHERE comment_post_id = $checkBoxPostId";
+                    $comments_delete = mysqli_query($connection, $comments_delete_query);
+                    confirmQuery($comments_delete);
                     break;
                 case "clone":
                     $query = "SELECT * FROM posts WHERE post_id = $checkBoxPostId";
@@ -128,9 +131,9 @@
                     echo "<td><a href='admin_comments.php?source=post_comments&c_id=$post_id'>$post_comment_count</a></td>";
                     echo "<td>$post_view_count</td>";
                     echo "<td>$post_date</td>";
-                    echo "<td><a href='../post.php?p_id=$post_id'>View</a></td>";
-                    echo "<td><a href='admin_posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
-                    echo "<td><a onClick=\"javascript: return confirm('Delete confirm?');\" href='admin_posts.php?delete=$post_id'>Delete</a></td>";
+                    echo "<td><a class='btn btn-primary btn-sm' href='../post.php?p_id=$post_id'>View</a></td>";
+                    echo "<td><a class='btn btn-info btn-sm' href='admin_posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
+                    echo "<td><a class='btn btn-danger btn-sm' onClick=\"javascript: return confirm('Delete confirm?');\" href='admin_posts.php?delete=$post_id'>Delete</a></td>";
                     echo "</tr>";
                 }
 

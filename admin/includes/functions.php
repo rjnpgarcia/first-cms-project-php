@@ -69,7 +69,12 @@ function deletePost()
     if (isset($_GET['delete'])) {
         $post_id_delete = mysqli_real_escape_string($connection, $_GET['delete']);
         $query = "DELETE FROM posts WHERE post_id = '$post_id_delete'";
-        mysqli_query($connection, $query);
+        $post_delete_query = mysqli_query($connection, $query);
+        confirmQuery($post_delete_query);
+        $comments_delete_query = "DELETE FROM comments WHERE comment_post_id = $post_id_delete";
+        $comments_delete = mysqli_query($connection, $comments_delete_query);
+        confirmQuery($comments_delete);
+
         header("Location: admin_posts.php");
     }
 }
