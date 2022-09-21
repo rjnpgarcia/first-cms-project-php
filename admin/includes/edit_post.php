@@ -1,4 +1,5 @@
 <?php
+
 if (isset($_GET['p_id'])) {
     $post_id_edit = mysqli_real_escape_string($connection, $_GET['p_id']);
 
@@ -13,6 +14,9 @@ if (isset($_GET['p_id'])) {
         $post_tags = $row['post_tags'];
         $post_content = $row['post_content'];
         $post_id = $row['post_id'];
+    }
+    if (!isset($_SESSION['user_role']) && $_SESSION['user_role'] !== 'admin' || $_SESSION['username'] !== $post_author) {
+        header('Location: admin_posts.php');
     }
 }
 
@@ -60,8 +64,11 @@ if (isset($_POST['update_post'])) {
             while ($row = mysqli_fetch_assoc($select_categories)) {
                 $cat_id = $row['cat_id'];
                 $cat_title = $row['cat_title'];
-
-                echo "<option value='$cat_id'>$cat_title</option>";
+                if ($cat_id == $post_category_id) {
+                    echo "<option selected value='$cat_id'>$cat_title</option>";
+                } else {
+                    echo "<option value='$cat_id'>$cat_title</option>";
+                }
             }
             ?>
         </select>

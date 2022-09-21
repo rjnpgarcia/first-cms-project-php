@@ -121,3 +121,37 @@ function usersOnline()
     }
 }
 usersOnline();
+
+// *****Dashboard Widgets*****
+// Table Data Counts
+function recordCount($table)
+{
+    global $connection;
+    $query = "SELECT * FROM $table";
+    $select_table = mysqli_query($connection, $query);
+    return mysqli_num_rows($select_table);
+}
+
+// Data Status for Graph
+function checkStatus($table, $column, $status)
+{
+    global $connection;
+    $query = "SELECT * FROM $table WHERE $column = '$status'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_num_rows($result);
+}
+
+// Detector if user is Admin
+function checkUserAdmin($username)
+{
+    global $connection;
+    $query = "SELECT user_role FROM users WHERE username = '$username'";
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    $row = mysqli_fetch_array($result);
+    if ($row['user_role'] == 'admin') {
+        return true;
+    } else {
+        return false;
+    }
+}

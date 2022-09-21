@@ -88,7 +88,9 @@
          <tbody>
              <?php
                 //  READ QUERY
-                $query = "SELECT * FROM posts ORDER BY post_id DESC";
+                // Alternative way by JOINING TABLES
+                $query = "SELECT posts.post_id, posts.post_author, posts.post_title, posts.post_category_id, posts.post_status, posts.post_image, posts.post_tags, posts.post_view_count, posts.post_date, categories.cat_id, categories.cat_title FROM posts LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id DESC";
+                // $query = "SELECT * FROM posts ORDER BY post_id DESC";
                 $select_posts = mysqli_query($connection, $query);
                 while ($row = mysqli_fetch_assoc($select_posts)) {
                     $post_id = $row['post_id'];
@@ -100,13 +102,15 @@
                     $post_tags = $row['post_tags'];
                     $post_view_count = $row['post_view_count'];
                     $post_date = $row['post_date'];
+                    $cat_id = $row['cat_id'];
+                    $cat_title = $row['cat_title'];
 
                     //  TO DISPLAY CATEGORY
-                    $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
-                    $select_category = mysqli_query($connection, $query);
-                    while ($row = mysqli_fetch_assoc($select_category)) {
-                        $cat_title = $row['cat_title'];
-                    }
+                    // $query = "SELECT * FROM categories WHERE cat_id = $post_category_id";
+                    // $select_category = mysqli_query($connection, $query);
+                    // while ($row = mysqli_fetch_assoc($select_category)) {
+                    //     $cat_title = $row['cat_title'];
+                    // }
 
                     // NEW query for post comment count
                     $query = "SELECT * FROM comments WHERE comment_post_id = $post_id";

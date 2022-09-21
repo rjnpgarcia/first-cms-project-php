@@ -1,3 +1,10 @@
+<!-- Only for Admin -->
+<?php
+if (!checkUserAdmin($_SESSION['username'])) {
+    header('Location: index.php');
+}
+?>
+
 <!-- ADMIN ALL POSTS TABLE -->
 <table class="table table-bordered table-hover">
     <thead>

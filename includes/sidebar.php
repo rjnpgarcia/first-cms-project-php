@@ -15,21 +15,29 @@
         </div>
     </form> <!-- Search bar -->
     <!-- Blog Search Well -->
-    <form action="includes/login.php" method="post">
-        <div class="well">
-            <h4>Login</h4>
-            <div class="form-group">
-                <input name="username" type="text" class="form-control" placeholder="Enter Username">
-            </div>
-            <div class="form-group">
-                <input name="password" type="password" class="form-control" placeholder="Enter Password">
-            </div>
-            <div class="form-group">
-                <input name="login" type="submit" class="btn btn-primary">
-            </div>
-        </div>
-    </form> <!-- Search bar -->
 
+    <!-- Login form -->
+    <?php if (isset($_SESSION['user_role'])) : ?>
+        <div class="well">
+            <h4>Logged in as: <?php echo $_SESSION['username']; ?></h4>
+            <a href="includes/logout.php" class="btn btn-primary btn-xs">Logout</a>
+        </div>
+    <?php else : ?>
+        <form action="includes/login.php" method="post">
+            <div class="well">
+                <h4>Login</h4>
+                <div class="form-group">
+                    <input name="username" type="text" class="form-control" placeholder="Enter Username">
+                </div>
+                <div class="form-group">
+                    <input name="password" type="password" class="form-control" placeholder="Enter Password">
+                </div>
+                <div class="form-group">
+                    <input name="login" type="submit" class="btn btn-primary">
+                </div>
+            </div>
+        </form>
+    <?php endif; ?>
     <!-- /.input-group -->
 
 

@@ -38,13 +38,8 @@
                                     <i class="fa fa-file-text fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    // POST COUNT
-                                    $query = "SELECT * FROM posts";
-                                    $select_all_posts = mysqli_query($connection, $query);
-                                    $post_count = mysqli_num_rows($select_all_posts);
-                                    echo "<div class='huge'>$post_count</div>";
-                                    ?>
+                                    <!-- Post Count -->
+                                    <div class='huge'><?php echo $post_count = recordCount('posts'); ?></div>
                                     <div>Posts</div>
                                 </div>
                             </div>
@@ -66,13 +61,8 @@
                                     <i class="fa fa-comments fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    // COMMENT COUNT
-                                    $query = "SELECT * FROM comments";
-                                    $select_all_comments = mysqli_query($connection, $query);
-                                    $comment_count = mysqli_num_rows($select_all_comments);
-                                    echo "<div class='huge'>$comment_count</div>";
-                                    ?>
+                                    <!-- Comment Count -->
+                                    <div class='huge'><?php echo $comment_count = recordCount('comments'); ?></div>
                                     <div>Comments</div>
                                 </div>
                             </div>
@@ -94,13 +84,8 @@
                                     <i class="fa fa-user fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    // USER COUNT
-                                    $query = "SELECT * FROM users";
-                                    $select_all_users = mysqli_query($connection, $query);
-                                    $user_count = mysqli_num_rows($select_all_users);
-                                    echo "<div class='huge'>$user_count</div>";
-                                    ?>
+                                    <!-- User Count -->
+                                    <div class='huge'><?php echo $user_count = recordCount('users'); ?></div>
                                     <div> Users</div>
                                 </div>
                             </div>
@@ -122,13 +107,8 @@
                                     <i class="fa fa-list fa-5x"></i>
                                 </div>
                                 <div class="col-xs-9 text-right">
-                                    <?php
-                                    // CATEGORY COUNT
-                                    $query = "SELECT * FROM categories";
-                                    $select_all_categories = mysqli_query($connection, $query);
-                                    $category_count = mysqli_num_rows($select_all_categories);
-                                    echo "<div class='huge'>$category_count</div>";
-                                    ?>
+                                    <!-- Category Count -->
+                                    <div class='huge'><?php echo $category_count = recordCount('categories'); ?></div>
                                     <div>Categories</div>
                                 </div>
                             </div>
@@ -148,21 +128,15 @@
             <!-- Dashboard Column Graph -->
             <?php
             // for Published Post Count
-            $query = "SELECT * FROM posts WHERE post_status = 'published'";
-            $published_post_query = mysqli_query($connection, $query);
-            $published_count = mysqli_num_rows($published_post_query);
+            $published_count = checkStatus('posts', 'post_status', 'published');
             // for Draft Post Count
-            $query = "SELECT * FROM posts WHERE post_status = 'draft'";
-            $draft_post_query = mysqli_query($connection, $query);
-            $draft_count = mysqli_num_rows($draft_post_query);
+            $draft_count = checkStatus('posts', 'post_status', 'draft');
             // for Unapproved Comment Count
-            $query = "SELECT * FROM comments WHERE comment_status = 'unapproved'";
-            $unapproved_comment_query = mysqli_query($connection, $query);
-            $unapproved_count = mysqli_num_rows($unapproved_comment_query);
+            $unapproved_count = checkStatus('comments', 'comment_status', 'unapproved');
             // for Subscriber User Count
-            $query = "SELECT * FROM users WHERE user_role = 'subscriber'";
-            $subscriber_query = mysqli_query($connection, $query);
-            $subscriber_count = mysqli_num_rows($subscriber_query);
+            $subscriber_count = checkStatus('users', 'user_role', 'subscriber');
+            // for Admin User Count
+            $admin_count = checkStatus('users', 'user_role', 'admin');
             ?>
             <div class="row">
                 <script type="text/javascript">
@@ -176,8 +150,8 @@
                             ['Data', 'Count'],
                             <?php
                             //  For Graph Elements
-                            $element_title = ['All Posts', 'Published Post', 'Draft Post', 'All Comments', 'Unapproved', 'All Users', 'Subscribers', 'Categories'];
-                            $element_count = [$post_count, $published_count, $draft_count, $comment_count, $unapproved_count, $user_count, $subscriber_count, $category_count];
+                            $element_title = ['All Posts', 'Published Post', 'Draft Post', 'All Comments', 'Unapproved', 'admin', 'Subscribers', 'Categories'];
+                            $element_count = [$post_count, $published_count, $draft_count, $comment_count, $unapproved_count, $admin_count, $subscriber_count, $category_count];
                             for ($i = 0; $i < 8; $i++) {
                                 echo "['$element_title[$i]', $element_count[$i]],";
                             }
