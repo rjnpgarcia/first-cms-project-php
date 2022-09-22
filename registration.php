@@ -8,10 +8,13 @@ if (isset($_POST['submit'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
 
-    if (!empty($username) && !empty($email) && !empty($password)) {
-        $username = mysqli_real_escape_string($connection, $username);
-        $email = mysqli_real_escape_string($connection, $email);
-        $password = mysqli_real_escape_string($connection, $password);
+    $username = mysqli_real_escape_string($connection, $username);
+    $email = mysqli_real_escape_string($connection, $email);
+    $password = mysqli_real_escape_string($connection, $password);
+    // check duplicate username
+    if (checkUsernameExists($username)) {
+        $message = "<p class='text-danger'>Username exists</p>";
+    } elseif (!empty($username) && !empty($email) && !empty($password)) {
 
         // NEW SYSTEM for Password Encrytion
         $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));

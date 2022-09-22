@@ -1,8 +1,9 @@
 <!-- Database Connection -->
 <?php
 ob_start();
-include "db.php";
 session_start();
+include "db.php";
+include "admin/includes/functions.php";
 ?>
 
 
