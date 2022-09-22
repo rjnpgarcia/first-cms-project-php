@@ -137,12 +137,29 @@
                     echo "<td>$post_date</td>";
                     echo "<td><a class='btn btn-primary btn-sm' href='../post.php?p_id=$post_id'>View</a></td>";
                     echo "<td><a class='btn btn-info btn-sm' href='admin_posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
-                    echo "<td><a class='btn btn-danger btn-sm' onClick=\"javascript: return confirm('Delete confirm?');\" href='admin_posts.php?delete=$post_id'>Delete</a></td>";
+                ?>
+
+                 <form method="post">
+                     <input type="hidden" name="post_id" value='<?php echo $post_id; ?>'>
+                     <td><input type="submit" name="delete" value="Delete" class="btn btn-danger btn-sm" onClick="javascript: return confirm('Delete confirm?');"></td>
+                 </form>
+
+             <?php
                     echo "</tr>";
                 }
 
                 //  DELETE POST QUERY
-                deletePost();
+                if (isset($_POST['delete'])) {
+                    $post_id_delete = mysqli_real_escape_string($connection, $_POST['post_id']);
+                    $query = "DELETE FROM posts WHERE post_id = '$post_id_delete'";
+                    $post_delete_query = mysqli_query($connection, $query);
+                    confirmQuery($post_delete_query);
+                    $comments_delete_query = "DELETE FROM comments WHERE comment_post_id = '$post_id_delete'";
+                    $comments_delete = mysqli_query($connection, $comments_delete_query);
+                    confirmQuery($comments_delete);
+
+                    header("Location: admin_posts.php");
+                }
                 ?>
          </tbody>
      </table>

@@ -62,23 +62,6 @@ function deleteCategory()
     }
 }
 
-//  DELETE POST QUERY
-function deletePost()
-{
-    global $connection;
-    if (isset($_GET['delete'])) {
-        $post_id_delete = mysqli_real_escape_string($connection, $_GET['delete']);
-        $query = "DELETE FROM posts WHERE post_id = '$post_id_delete'";
-        $post_delete_query = mysqli_query($connection, $query);
-        confirmQuery($post_delete_query);
-        $comments_delete_query = "DELETE FROM comments WHERE comment_post_id = $post_id_delete";
-        $comments_delete = mysqli_query($connection, $comments_delete_query);
-        confirmQuery($comments_delete);
-
-        header("Location: admin_posts.php");
-    }
-}
-
 //  DELETE COMMENT QUERY
 function deleteComment()
 {
@@ -168,4 +151,34 @@ function checkUsernameExists($username)
     } else {
         return false;
     }
+}
+
+// To Prevent Duplicate Email
+function checkEmailExists($email)
+{
+    global $connection;
+    $query = "SELECT user_email FROM users WHERE user_email = '$email'";
+    $result = mysqli_query($connection, $query);
+    confirmQuery($result);
+    if (mysqli_num_rows($result) > 0) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// for Register user
+function register($username, $email, $password)
+{
+    global $connection;
+    $username = mysqli_real_escape_string($connection, $username);
+    $email = mysqli_real_escape_string($connection, $email);
+    $password = mysqli_real_escape_string($connection, $password);
+    // NEW SYSTEM for Password Encrytion
+    $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
+
+    // CREATE registration query
+    $query = "INSERT INTO users(username, user_email, user_password, user_role) VALUES ('$username', '$email', '$password', 'subscriber')";
+    $register_user_query = mysqli_query($connection, $query);
+    confirmQuery($register_user_query);
 }

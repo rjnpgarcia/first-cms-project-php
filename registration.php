@@ -3,45 +3,74 @@
 include "includes/header.php";
 include "includes/navigation.php";
 // Registration Form Query
-if (isset($_POST['submit'])) {
-    $username = $_POST['username'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
+if (isset($_POST['register'])) {
+    $username = trim($_POST['username']);
+    $email = trim($_POST['email']);
+    $password = trim($_POST['password']);
 
+    $error = [
+        'username' => '',
+        'email' => '',
+        'password' => '',
+    ];
+
+    if (strlen($username) < 4) {
+        $error['username'] = 'Username is too short!';
+    }
+
+    if (empty($username)) {
+        $error['username'] = 'Username should not be empty!';
+    }
+
+    if (checkUsernameExists($username)) {
+        $error['username'] = 'Username already exists!';
+    }
+
+    if (empty($email)) {
+        $error['email'] = 'Email should not be empty!';
+    }
+
+    if (checkEmailExists($email)) {
+        $error['email'] = 'Email already exists!';
+    }
+
+    if (empty($password)) {
+        $error['password'] = 'Password should not be empty!';
+    }
+
+    // for Valid Registration
+    foreach ($error as $key => $value) {
+        if (empty($value)) {
+            unset($error[$key]);
+        }
+    }
+    if (empty($error)) {
+        register($username, $email, $password);
+        $success = "Successfully registered! <a href='index.php'>Login here</a>";
+    }
+    /*
     $username = mysqli_real_escape_string($connection, $username);
     $email = mysqli_real_escape_string($connection, $email);
     $password = mysqli_real_escape_string($connection, $password);
     // check duplicate username
     if (checkUsernameExists($username)) {
-        $message = "<p class='text-danger'>Username exists</p>";
+        $message = "<h6 class='text-center text-danger'>Username already exists</h6>";
     } elseif (!empty($username) && !empty($email) && !empty($password)) {
 
         // NEW SYSTEM for Password Encrytion
         $password = password_hash($password, PASSWORD_BCRYPT, array('cost' => 10));
 
-        // (OLD SYSTEM) randSalt query and password encrypt
-        // $query = "SELECT randSalt FROM users";
-        // $select_randsalt_query = mysqli_query($connection, $query);
-        // if (!$select_randsalt_query) {
-        //     die('QUERY FAILED' . mysqli_error($connection));
-        // }
-        // $row = mysqli_fetch_array($select_randsalt_query);
-        // $salt = $row['randSalt'];
-        // $password = crypt($password, $salt);
-
-
         // CREATE registration query
         $query = "INSERT INTO users(username, user_email, user_password, user_role) VALUES ('$username', '$email', '$password', 'subscriber')";
         $register_user_query = mysqli_query($connection, $query);
-        if (!$register_user_query) {
-            die('QUERY FAILED' . mysqli_error($connection));
-        }
+        confirmQuery($register_user_query);
         $message = "<h6 class='text-center text-success'>Registration has been submitted</h6>";
     } else {
         $message = "<h6 class='text-danger'>This field should not be empty</h6>";
     }
 } else {
     $message = '';
+    */
 }
 ?>
 
@@ -56,44 +85,25 @@ if (isset($_POST['submit'])) {
                     <div class="form-wrap">
                         <h1>Register</h1>
                         <form role="form" action="registration.php" method="post" id="login-form" autocomplete="off">
-                            <?php
-                            // Success Notification
-                            if (!empty($register_user_query)) {
-                                echo $message;
-                            }
-                            ?>
                             <div class="form-group">
-                                <?php
-                                // Field empty notif
-                                if (empty($username)) {
-                                    echo $message;
-                                }
-                                ?>
+                                <!-- success register notification -->
+                                <p class="text-center text-success"><?php echo !empty($success) ? $success : ''; ?></p>
+
                                 <label for="username" class="sr-only">username</label>
-                                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username">
+                                <input type="text" name="username" id="username" class="form-control" placeholder="Enter Desired Username" autocomplete="on" value="<?php echo isset($username) ? $username : ''; ?>">
+                                <p class="text-danger"><?php echo isset($error['username']) ? $error['username'] : ''; ?></p>
                             </div>
                             <div class="form-group">
-                                <?php
-                                // Field empty notif
-                                if (empty($email)) {
-                                    echo $message;
-                                }
-                                ?>
                                 <label for="email" class="sr-only">Email</label>
-                                <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com">
+                                <input type="email" name="email" id="email" class="form-control" placeholder="somebody@example.com" autocomplete="on" value="<?php echo isset($username) ? $email : ''; ?>">
+                                <p class="text-danger"><?php echo isset($error['email']) ? $error['email'] : ''; ?></p>
                             </div>
                             <div class="form-group">
-                                <?php
-                                // Field empty notif
-                                if (empty($password)) {
-                                    echo $message;
-                                }
-                                ?>
                                 <label for="password" class="sr-only">Password</label>
                                 <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                                <p class="text-danger"><?php echo isset($error['password']) ? $error['password'] : ''; ?></p>
                             </div>
-
-                            <input type="submit" name="submit" id="btn-login" class="btn btn-info btn-lg btn-block" value="Register">
+                            <input type="submit" name="register" id="btn-login" class="btn btn-info btn-lg btn-block" value="Register">
                         </form>
 
                     </div>
