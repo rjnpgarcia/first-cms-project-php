@@ -23,7 +23,7 @@ if (isset($_POST['create_post'])) {
         die("QUERY FAILED" . mysqli_error($connection));
     }
     $the_post_id = mysqli_insert_id($connection);
-    echo "<p class='text-success'>Post Successfully Added: <a href='../post.php?p_id=$the_post_id'>View Post</a> or <a href='../admin/admin_posts.php'>Edit More Posts</a></p>";
+    echo "<p class='text-success'>Post Successfully Added: <a href='/demo/cms/first-cms-project-php/post/$the_post_id'>View Post</a> or <a href='../admin/admin_posts.php'>Edit More Posts</a></p>";
 }
 ?>
 

@@ -45,7 +45,7 @@
                     $post_id = $row['post_id'];
                     $post_title = $row['post_title'];
 
-                    echo "<td><a href='../post.php?p_id=$post_id' target='_blank'>$post_title</a></td>";
+                    echo "<td><a href='/demo/cms/first-cms-project-php/post/$post_id' target='_blank'>$post_title</a></td>";
                 }
 
                 echo "<td>$comment_date</td>";

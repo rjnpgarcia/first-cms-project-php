@@ -135,7 +135,7 @@
                     echo "<td><a href='admin_comments.php?source=post_comments&c_id=$post_id'>$post_comment_count</a></td>";
                     echo "<td>$post_view_count</td>";
                     echo "<td>$post_date</td>";
-                    echo "<td><a class='btn btn-primary btn-sm' href='../post.php?p_id=$post_id'>View</a></td>";
+                    echo "<td><a class='btn btn-primary btn-sm' href='/demo/cms/first-cms-project-php/post/$post_id'>View</a></td>";
                     echo "<td><a class='btn btn-info btn-sm' href='admin_posts.php?source=edit_post&p_id=$post_id'>Edit</a></td>";
                 ?>
 

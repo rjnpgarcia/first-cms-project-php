@@ -15,7 +15,7 @@ if (isset($_GET['p_id'])) {
         $post_content = $row['post_content'];
         $post_id = $row['post_id'];
     }
-    if (!isset($_SESSION['user_role']) && $_SESSION['user_role'] !== 'admin' || $_SESSION['username'] !== $post_author) {
+    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin' || $_SESSION['username'] !== $post_author) {
         header('Location: admin_posts.php');
     }
 }

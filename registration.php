@@ -46,7 +46,7 @@ if (isset($_POST['register'])) {
     }
     if (empty($error)) {
         register($username, $email, $password);
-        $success = "Successfully registered! <a href='index.php'>Login here</a>";
+        $success = "Successfully registered! <a href='/demo/cms/first-cms-project-php/index'>Login here</a>";
     }
     /*
     $username = mysqli_real_escape_string($connection, $username);

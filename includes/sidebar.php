@@ -20,7 +20,7 @@
     <?php if (isset($_SESSION['user_role'])) : ?>
         <div class="well">
             <h4>Logged in as: <?php echo $_SESSION['username']; ?></h4>
-            <a href="includes/logout.php" class="btn btn-primary btn-xs">Logout</a>
+            <a href="/demo/cms/first-cms-project-php/includes/logout.php" class="btn btn-primary btn-xs">Logout</a>
         </div>
     <?php else : ?>
         <form action="includes/login.php" method="post">
@@ -56,7 +56,7 @@
                         $cat_title = $row['cat_title'];
                         $cat_id = $row['cat_id'];
 
-                        echo "<li><a href='category.php?category=$cat_id'>$cat_title</a></li>";
+                        echo "<li><a href='/demo/cms/first-cms-project-php/category.php?category=$cat_id'>$cat_title</a></li>";
                     }
                     ?>
                 </ul>
