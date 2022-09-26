@@ -31,7 +31,7 @@
                         $registration_class = 'active';
                     }
 
-                    echo "<li class='$category_class'><a href='/demo/cms/first-cms-project-php/category.php?category=$cat_id'>$cat_title</a></li>";
+                    echo "<li class='$category_class'><a href='/demo/cms/first-cms-project-php/category/$cat_id'>$cat_title</a></li>";
                 }
                 ?>
                 <li class="<?php echo "$registration_class" ?>"><a href="/demo/cms/first-cms-project-php/registration">Registration</a></li>

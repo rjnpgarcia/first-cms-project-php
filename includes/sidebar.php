@@ -23,7 +23,7 @@
             <a href="/demo/cms/first-cms-project-php/includes/logout.php" class="btn btn-primary btn-xs">Logout</a>
         </div>
     <?php else : ?>
-        <form action="includes/login.php" method="post">
+        <form action="/demo/cms/first-cms-project-php/includes/login.php" method="post">
             <div class="well">
                 <h4>Login</h4>
                 <div class="form-group">
@@ -56,7 +56,7 @@
                         $cat_title = $row['cat_title'];
                         $cat_id = $row['cat_id'];
 
-                        echo "<li><a href='/demo/cms/first-cms-project-php/category.php?category=$cat_id'>$cat_title</a></li>";
+                        echo "<li><a href='/demo/cms/first-cms-project-php/category/$cat_id'>$cat_title</a></li>";
                     }
                     ?>
                 </ul>
