@@ -37,12 +37,14 @@
                 <li class="<?php echo "$registration_class" ?>"><a href="/demo/cms/first-cms-project-php/registration">Registration</a></li>
                 <?php
                 // NAV LINKS if logged in
-                if (isset($_SESSION['user_role'])) {
+                if (isLoggedIn()) {
                     echo "<li><a href='/demo/cms/first-cms-project-php/admin'>Admin</a></li>";
                     if (isset($_GET['p_id'])) {
                         $the_post_id = mysqli_real_escape_string($connection, $_GET['p_id']);
                         echo "<li><a href='/demo/cms/first-cms-project-php/admin/admin_posts.php?source=edit_post&p_id=$the_post_id'>Edit Post</a></li>";
                     }
+                } else {
+                    echo "<li><a href='/demo/cms/first-cms-project-php/login.php'>Login</a></li>";
                 }
                 ?>
             </ul>

@@ -1,4 +1,9 @@
 <?php
+// only admin access
+if (!checkUserAdmin($_SESSION['user_role'])) {
+    header('Location: index.php');
+}
+
 //  CREATE USER QUERY
 if (isset($_POST['create_user'])) {
     $user_firstname = mysqli_real_escape_string($connection, $_POST['user_firstname']);

@@ -8,12 +8,6 @@
 
     <div id="page-wrapper">
 
-        <?php
-        // For users online count
-
-
-        ?>
-
         <div class="container-fluid">
 
             <!-- Page Heading -->

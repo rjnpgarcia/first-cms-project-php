@@ -15,38 +15,39 @@ if (isset($_GET['p_id'])) {
         $post_content = $row['post_content'];
         $post_id = $row['post_id'];
     }
-    if (!isset($_SESSION['user_role']) || $_SESSION['user_role'] !== 'admin' || $_SESSION['username'] !== $post_author) {
-        header('Location: admin_posts.php');
-    }
 }
+if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin' || $_SESSION['username'] === $post_author) {
 
-if (isset($_POST['update_post'])) {
-    $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);
-    $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category_id']);
-    $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
+    if (isset($_POST['update_post'])) {
+        $post_title = mysqli_real_escape_string($connection, $_POST['post_title']);
+        $post_category_id = mysqli_real_escape_string($connection, $_POST['post_category_id']);
+        $post_status = mysqli_real_escape_string($connection, $_POST['post_status']);
 
-    $post_image = $_FILES['post_image']['name'];
-    $post_image_temp = $_FILES['post_image']['tmp_name'];
+        $post_image = $_FILES['post_image']['name'];
+        $post_image_temp = $_FILES['post_image']['tmp_name'];
 
-    $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
-    $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
-    $post_date = date('d-m-y');
+        $post_tags = mysqli_real_escape_string($connection, $_POST['post_tags']);
+        $post_content = mysqli_real_escape_string($connection, $_POST['post_content']);
+        $post_date = date('d-m-y');
 
-    move_uploaded_file($post_image_temp, "../images/$post_image");
+        move_uploaded_file($post_image_temp, "../images/$post_image");
 
-    if (empty($post_image)) {
-        $query = "SELECT * FROM posts WHERE post_id = $post_id_edit";
-        $select_image = mysqli_query($connection, $query);
-        while ($row = mysqli_fetch_assoc($select_image)) {
-            $post_image = $row['post_image'];
+        if (empty($post_image)) {
+            $query = "SELECT * FROM posts WHERE post_id = $post_id_edit";
+            $select_image = mysqli_query($connection, $query);
+            while ($row = mysqli_fetch_assoc($select_image)) {
+                $post_image = $row['post_image'];
+            }
         }
+
+        $query = "UPDATE posts SET post_title = '$post_title', post_category_id = '$post_category_id', post_status = '$post_status', post_image = '$post_image', post_tags = '$post_tags', post_date = now(), post_content = '$post_content' WHERE post_id = $post_id_edit";
+
+        $update_post = mysqli_query($connection, $query);
+        confirmQuery($update_post);
+        echo "<p class='text-success'>Post Successfully Updated: <a href='../post.php?p_id=$post_id'>View post</a> or <a href='../admin/admin_posts.php'>Edit more posts</a></p>";
     }
-
-    $query = "UPDATE posts SET post_title = '$post_title', post_category_id = '$post_category_id', post_status = '$post_status', post_image = '$post_image', post_tags = '$post_tags', post_date = now(), post_content = '$post_content' WHERE post_id = $post_id_edit";
-
-    $update_post = mysqli_query($connection, $query);
-    confirmQuery($update_post);
-    echo "<p class='text-success'>Post Successfully Updated: <a href='../post.php?p_id=$post_id'>View post</a> or <a href='../admin/admin_posts.php'>Edit more posts</a></p>";
+} else {
+    header('Location: admin_posts.php');
 }
 ?>
 <form action="" method="post" enctype="multipart/form-data">

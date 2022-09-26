@@ -182,3 +182,38 @@ function register($username, $email, $password)
     $register_user_query = mysqli_query($connection, $query);
     confirmQuery($register_user_query);
 }
+
+// If it is method
+function ifMethod($method)
+{
+    if ($_SERVER['REQUEST_METHOD'] == strtoupper($method)) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// redirect to location
+function redirect($location)
+{
+    header("Location: $location");
+    exit;
+}
+
+// Check if user is logged in
+function isLoggedIn()
+{
+    if (isset($_SESSION['user_role'])) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+// To check if user is logged in then redirect
+function ifUserLoggedRedirect($redirectLocation)
+{
+    if (isLoggedIn()) {
+        redirect($redirectLocation);
+    }
+}
