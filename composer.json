@@ -1,0 +1,17 @@
+{
+    "name": "ralphstarrr/first-cms-project-php",
+    "require": {
+        "phpmailer/phpmailer": "6.6.4"
+    },
+    "autoload": {
+        "psr-4": {
+            "Ralphstarrr\\FirstCmsProjectPhp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "rjnpgarcia",
+            "email": "102405417+rjnpgarcia@users.noreply.github.com"
+        }
+    ]
+}

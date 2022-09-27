@@ -1,8 +1,21 @@
 <?php
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\SMTP;
+use PHPMailer\PHPMailer\Exception;
+
+
+
 include "includes/header.php";
 include "includes/navigation.php";
 
-if (!ifMethod('get') || !$_GET['forgot']) {
+require './vendor/autoload.php';
+require './classes/config.php';
+
+
+
+
+if (!ifMethod('get') && !$_GET['forgot']) {
     redirect('index');
 }
 
@@ -17,6 +30,33 @@ if (ifMethod('post')) {
             mysqli_stmt_bind_param($stmt, "s", $email);
             mysqli_stmt_execute($stmt);
             mysqli_stmt_close($stmt);
+
+            $resetPasswordLink = "http://localhost/demo/cms/first-cms-project-php/reset.php?email=$email&token=$token";
+
+            // Configure PHPMailer
+            $mail = new PHPMailer();
+            //Server settings
+            $mail->isSMTP();
+            $mail->Host       = config::SMTP_HOST;
+            $mail->SMTPAuth   = true;
+            $mail->Username   = config::SMTP_USER;
+            $mail->Password   = config::SMTP_PASSWORD;
+            $mail->SMTPSecure = 'tls';
+            $mail->Port       = config::SMTP_PORT;
+            $mail->isHTML(true);
+
+            $mail->setFrom('rjnpgarcia@gmail.com', 'Ralph Garcia');
+            $mail->addAddress($email);
+            $mail->Subject = 'This is a test email';
+            $mail->Body = "<p>Please click here to reset your password</p><br>
+            <a href='$resetPasswordLink'>$resetPasswordLink</a>";
+            $mail->CharSet = 'UTF-8';
+
+            if ($mail->send()) {
+                echo 'Email sent';
+            } else {
+                echo 'sending failed';
+            }
         }
     }
 }
