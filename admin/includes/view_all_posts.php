@@ -88,9 +88,18 @@
          <tbody>
              <?php
                 //  READ QUERY
-                // Alternative way by JOINING TABLES
-                $query = "SELECT posts.post_id, posts.post_author, posts.post_title, posts.post_category_id, posts.post_status, posts.post_image, posts.post_tags, posts.post_view_count, posts.post_date, categories.cat_id, categories.cat_title FROM posts LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id DESC";
-                // $query = "SELECT * FROM posts ORDER BY post_id DESC";
+                // Only Admin can view all posts
+                if ($_SESSION['user_role'] === 'admin') {
+                    // Alternative way by JOINING TABLES
+                    $query = "SELECT posts.post_id, posts.post_author, posts.post_title, posts.post_category_id, posts.post_status, posts.post_image, posts.post_tags, posts.post_view_count, posts.post_date, categories.cat_id, categories.cat_title FROM posts LEFT JOIN categories ON posts.post_category_id = categories.cat_id ORDER BY posts.post_id DESC";
+                    // $query = "SELECT * FROM posts ORDER BY post_id DESC";
+                } else {
+                    // Post author can view own posts
+                    $user = $_SESSION['username'];
+                    // Alternative way by JOINING TABLES
+                    $query = "SELECT posts.post_id, posts.post_author, posts.post_title, posts.post_category_id, posts.post_status, posts.post_image, posts.post_tags, posts.post_view_count, posts.post_date, categories.cat_id, categories.cat_title FROM posts LEFT JOIN categories ON posts.post_category_id = categories.cat_id WHERE posts.post_author = '$user' ORDER BY posts.post_id DESC";
+                    // $query = "SELECT * FROM posts ORDER BY post_id DESC";
+                }
                 $select_posts = mysqli_query($connection, $query);
                 while ($row = mysqli_fetch_assoc($select_posts)) {
                     $post_id = $row['post_id'];
@@ -129,7 +138,7 @@
                     echo "<td>$post_title</td>";
                     echo "<td>$cat_title</td>";
                     echo "<td>$post_status</td>";
-                    echo "<td><img width='100px' src='../images/$post_image' alt='post image'></td>";
+                    echo "<td><img width='100px' src='../images/" . imagePlaceholder($post_image) . "' alt='post image'></td>";
                     echo "<td>$post_tags</td>";
 
                     echo "<td><a href='admin_comments.php?source=post_comments&c_id=$post_id'>$post_comment_count</a></td>";

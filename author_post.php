@@ -76,7 +76,7 @@
                     <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date; ?></p>
                     <hr>
                     <a href="/demo/cms/first-cms-project-php/post/<?php echo $post_id; ?>">
-                        <img class="img-responsive" src="/demo/cms/first-cms-project-php/images/<?php echo $post_image; ?>" alt="">
+                        <img class="img-responsive" src="/demo/cms/first-cms-project-php/images/<?php echo imagePlaceholder($post_image); ?>" alt="">
                     </a>
                     <hr>
                     <p><?php echo $post_content; ?></p>

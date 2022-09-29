@@ -2,7 +2,7 @@
 ob_start();
 session_start();
 
-//  Validating Admin role
+//  Validating login
 if (!isset($_SESSION['user_role'])) {
     header("Location: ../index.php");
 }

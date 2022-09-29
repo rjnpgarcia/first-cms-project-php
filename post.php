@@ -3,6 +3,20 @@
 <!-- Navigation -->
 <?php include "includes/navigation.php"; ?>
 
+<?php if (isset($_POST['liked'])) {
+    $post_id = $_POST['post_id'];
+
+    $query = "SELECT * FROM posts WHERE post_id = $post_id";
+    $postResult = mysqli_query($connection, $query);
+    $post = mysqli_fetch_array($postResult);
+    $likes = $post['likes'];
+
+    if (mysqli_num_rows($postResult) >= 1) {
+        echo $post['post_id'];
+    }
+    mysqli_query($connection, "UPDATE posts SET likes = $likes+1 WHERE post_id = $post_id");
+}
+?>
 <!-- Page Content -->
 <div class="container">
 
@@ -53,7 +67,7 @@
                     <p><span class="glyphicon glyphicon-time"></span> Posted on <?php echo $post_date ?></p>
                     <hr>
                     <a href="/demo/cms/first-cms-project-php/post/<?php echo $post_id; ?>">
-                        <img class="img-responsive" src="/demo/cms/first-cms-project-php/images/<?php echo $post_image; ?>" alt="">
+                        <img class="img-responsive" src="/demo/cms/first-cms-project-php/images/<?php echo imagePlaceholder($post_image); ?>" alt="">
                     </a>
                     <hr>
                     <p><?php echo $post_content ?></p>
@@ -65,6 +79,14 @@
             }
             ?>
             <!-- Blog Comments -->
+
+            <!-- For LIKES -->
+            <div class="row">
+                <p class="pull-right like"><a href="#"><span class="glyphicon glyphicon-thumbs-up"> Like</span></a></p>
+            </div>
+            <div class="row">
+                <p class="pull-right">Likes: 10</p>
+            </div>
 
             <!-- Comments Form -->
             <?php
@@ -185,4 +207,23 @@
 
     <hr>
     <!-- Footer -->
-    <?php include "includes/footer.php";
+    <?php include "includes/footer.php"; ?>
+
+    <script>
+        $(document).ready(function() {
+            var post_id = <?php echo $post; ?>;
+            var user_id = 26;
+
+            $('.like').click(function() {
+                $.ajax({
+                    url: "/demo/cms/first-cms-project-php/post.php?p_id=<?php echo $the_post_id; ?>",
+                    type: 'post',
+                    data: {
+                        'liked': 1,
+                        'post_id': post_id,
+                        'user_id': user_id
+                    }
+                })
+            })
+        })
+    </script>

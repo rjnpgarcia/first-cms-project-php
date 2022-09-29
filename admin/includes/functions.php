@@ -217,3 +217,13 @@ function ifUserLoggedRedirect($redirectLocation)
         redirect($redirectLocation);
     }
 }
+
+// for image placeholder
+function imagePlaceholder($image)
+{
+    if (!$image) {
+        return 'SM-placeholder.png';
+    } else {
+        return $image;
+    }
+}
