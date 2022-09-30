@@ -235,9 +235,20 @@ function loggedInUserId()
     if (isLoggedIn()) {
         $username = $_SESSION['username'];
         $result = mysqli_query($connection, "SELECT * FROM users WHERE username = '$username'");
+        confirmQuery($result);
         $user = mysqli_fetch_array($result);
         return $user['user_id'];
     } else {
         return false;
     }
+}
+
+// to know if user liked the post
+function userLikedPost($post_id)
+{
+    global $connection;
+    $user_id = loggedInUserId();
+    $result = mysqli_query($connection, "SELECT * FROM likes WHERE user_id = $user_id AND post_id = $post_id");
+    confirmQuery($result);
+    return mysqli_num_rows($result) >= 1 ? true : false;
 }

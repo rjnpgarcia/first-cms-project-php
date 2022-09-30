@@ -31,9 +31,9 @@ if (isset($_POST['unliked'])) {
     $row = mysqli_fetch_array($postResult);
     $likes = $row['likes'];
 
+    mysqli_query($connection, "DELETE FROM likes WHERE user_id = $user_id AND post_id = $post_id");
     mysqli_query($connection, "UPDATE posts SET likes = $likes-1 WHERE post_id = $post_id");
 
-    mysqli_query($connection, "DELETE FROM likes WHERE user_id = $user_id AND post_id = $post_id");
     exit();
 }
 
@@ -101,14 +101,11 @@ if (isset($_POST['unliked'])) {
             ?>
             <!-- Blog Comments -->
 
-            <!-- For LIKES -->
+            <!-- For LIKES and UNLIKES -->
             <div class="row">
-                <p class="pull-right like"><a href="#"><span class="glyphicon glyphicon-thumbs-up"> Like</span></a></p>
+                <p class="pull-right"><a class="<?php echo userLikedPost($post_id) ? 'unlike' : 'like'; ?>" href=""><span class="glyphicon glyphicon-thumbs-up"><?php echo userLikedPost($post_id) ? ' Unlike' : ' Like'; ?></span></a></p>
             </div>
-            <!-- For UNLIKES -->
-            <div class="row">
-                <p class="pull-right unlike"><a href="#"><span class="glyphicon glyphicon-thumbs-down"> Unlike</span></a></p>
-            </div>
+
             <div class="row">
                 <p class="pull-right">Likes: 10</p>
             </div>
@@ -238,7 +235,7 @@ if (isset($_POST['unliked'])) {
         // for LIKE
         $(document).ready(function() {
             var post_id = <?php echo $post; ?>;
-            var user_id = 26;
+            var user_id = <?php echo $_SESSION['user_id']; ?>;
 
             $('.like').click(function() {
                 $.ajax({
@@ -251,13 +248,9 @@ if (isset($_POST['unliked'])) {
                     }
                 })
             })
-        })
 
-        // for UNLIKE
-        $(document).ready(function() {
-            var post_id = <?php echo $post; ?>;
-            var user_id = 26;
 
+            // for UNLIKE
             $('.unlike').click(function() {
                 $.ajax({
                     url: "/demo/cms/first-cms-project-php/post.php?p_id=<?php echo $post; ?>",
