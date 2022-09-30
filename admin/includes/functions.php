@@ -227,3 +227,17 @@ function imagePlaceholder($image)
         return $image;
     }
 }
+
+// for the user_id of the logged-in user
+function loggedInUserId()
+{
+    global $connection;
+    if (isLoggedIn()) {
+        $username = $_SESSION['username'];
+        $result = mysqli_query($connection, "SELECT * FROM users WHERE username = '$username'");
+        $user = mysqli_fetch_array($result);
+        return $user['user_id'];
+    } else {
+        return false;
+    }
+}

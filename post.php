@@ -3,19 +3,40 @@
 <!-- Navigation -->
 <?php include "includes/navigation.php"; ?>
 
-<?php if (isset($_POST['liked'])) {
+
+<?php
+// for LIKE
+if (isset($_POST['liked'])) {
     $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
 
     $query = "SELECT * FROM posts WHERE post_id = $post_id";
     $postResult = mysqli_query($connection, $query);
-    $post = mysqli_fetch_array($postResult);
-    $likes = $post['likes'];
+    $row = mysqli_fetch_array($postResult);
+    $likes = $row['likes'];
 
-    if (mysqli_num_rows($postResult) >= 1) {
-        echo $post['post_id'];
-    }
     mysqli_query($connection, "UPDATE posts SET likes = $likes+1 WHERE post_id = $post_id");
+
+    mysqli_query($connection, "INSERT INTO likes(user_id, post_id) VALUES ($user_id, $post_id)");
+    exit();
 }
+
+// for UNLIKE
+if (isset($_POST['unliked'])) {
+    $post_id = $_POST['post_id'];
+    $user_id = $_POST['user_id'];
+
+    $query = "SELECT * FROM posts WHERE post_id = $post_id";
+    $postResult = mysqli_query($connection, $query);
+    $row = mysqli_fetch_array($postResult);
+    $likes = $row['likes'];
+
+    mysqli_query($connection, "UPDATE posts SET likes = $likes-1 WHERE post_id = $post_id");
+
+    mysqli_query($connection, "DELETE FROM likes WHERE user_id = $user_id AND post_id = $post_id");
+    exit();
+}
+
 ?>
 <!-- Page Content -->
 <div class="container">
@@ -83,6 +104,10 @@
             <!-- For LIKES -->
             <div class="row">
                 <p class="pull-right like"><a href="#"><span class="glyphicon glyphicon-thumbs-up"> Like</span></a></p>
+            </div>
+            <!-- For UNLIKES -->
+            <div class="row">
+                <p class="pull-right unlike"><a href="#"><span class="glyphicon glyphicon-thumbs-down"> Unlike</span></a></p>
             </div>
             <div class="row">
                 <p class="pull-right">Likes: 10</p>
@@ -210,16 +235,35 @@
     <?php include "includes/footer.php"; ?>
 
     <script>
+        // for LIKE
         $(document).ready(function() {
             var post_id = <?php echo $post; ?>;
             var user_id = 26;
 
             $('.like').click(function() {
                 $.ajax({
-                    url: "/demo/cms/first-cms-project-php/post.php?p_id=<?php echo $the_post_id; ?>",
+                    url: "/demo/cms/first-cms-project-php/post.php?p_id=<?php echo $post; ?>",
                     type: 'post',
                     data: {
                         'liked': 1,
+                        'post_id': post_id,
+                        'user_id': user_id
+                    }
+                })
+            })
+        })
+
+        // for UNLIKE
+        $(document).ready(function() {
+            var post_id = <?php echo $post; ?>;
+            var user_id = 26;
+
+            $('.unlike').click(function() {
+                $.ajax({
+                    url: "/demo/cms/first-cms-project-php/post.php?p_id=<?php echo $post; ?>",
+                    type: 'post',
+                    data: {
+                        'unliked': 1,
                         'post_id': post_id,
                         'user_id': user_id
                     }
