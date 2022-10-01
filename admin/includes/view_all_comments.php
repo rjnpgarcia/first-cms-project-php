@@ -16,8 +16,16 @@
     </thead>
     <tbody>
         <?php
-        $query = "SELECT * FROM comments ORDER BY comment_id DESC";
-        $select_comments = mysqli_query($connection, $query);
+        if (isset($_SESSION['user_role']) && $_SESSION['user_role'] === 'admin') {
+            // query for admin only
+            $query = "SELECT * FROM comments ORDER BY comment_id DESC";
+            $select_comments = mysqli_query($connection, $query);
+        } else {
+            // query for subscriber only
+            $comment_post_user = $_SESSION['username'];
+            $query = "SELECT * FROM posts INNER JOIN comments ON posts.post_id = comments.comment_post_id WHERE post_author = '$comment_post_user' ORDER BY comment_id DESC";
+            $select_comments = mysqli_query($connection, $query);
+        }
         while ($row = mysqli_fetch_assoc($select_comments)) {
             $comment_id = $row['comment_id'];
             $comment_post_id = $row['comment_post_id'];

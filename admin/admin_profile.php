@@ -60,8 +60,9 @@ if (isset($_POST['edit_profile'])) {
             <!-- Page Heading -->
             <div class="row">
                 <div class="col-lg-12">
+                    <small><?php echo checkUserAdmin($_SESSION['username']) ? 'Role: ADMIN' : 'ROLE: SUBSCRIBER'; ?></small>
                     <h1 class="page-header">
-                        Welcome to ADMIN
+                        <?php echo checkUserAdmin($_SESSION['username']) ? 'Welcome to the ADMIN' : 'Welcome to your DATA'; ?>
                         <small><?php echo $_SESSION['firstname']; ?> <?php echo $_SESSION['lastname']; ?></small>
                     </h1>
 

@@ -19,7 +19,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>
                 <?php
                 if (isset($_SESSION['username'])) {
-                    echo $_SESSION['username'];
+                    echo strtoupper($_SESSION['username']);
                 }
                 ?>
                 <b class="caret"></b></a>
@@ -38,8 +38,14 @@
     <div class="collapse navbar-collapse navbar-ex1-collapse">
         <ul class="nav navbar-nav side-nav">
             <li>
-                <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                <a href="index.php"><i class="fa fa-fw fa-dashboard"></i> My Data</a>
             </li>
+
+            <?php if (checkUserAdmin($_SESSION['username'])) : ?>
+                <li>
+                    <a href="dashboard.php"><i class="fa fa-fw fa-dashboard"></i> Dashboard</a>
+                </li>
+            <?php endif; ?>
             <li>
                 <a href="javascript:;" data-toggle="collapse" data-target="#posts_dropdown"><i class="fa fa-fw fa-desktop"></i> Posts <i class="fa fa-fw fa-caret-down"></i></a>
                 <ul id="posts_dropdown" class="collapse">

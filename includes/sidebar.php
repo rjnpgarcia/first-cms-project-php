@@ -2,7 +2,7 @@
     <!-- Login form -->
     <?php if (isset($_SESSION['user_role'])) : ?>
         <div class="well">
-            <h4>Logged in as: <?php echo $_SESSION['username']; ?></h4>
+            <h4>Logged in as: <?php echo strtoupper($_SESSION['username']); ?></h4>
             <a href="/demo/cms/first-cms-project-php/includes/logout.php" class="btn btn-primary btn-xs">Logout</a>
         </div>
     <?php endif; ?>

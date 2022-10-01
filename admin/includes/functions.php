@@ -17,11 +17,12 @@ function createCategory()
     global $connection;
     if (isset($_POST['submit'])) {
         $cat_title = mysqli_real_escape_string($connection, $_POST['cat_title']);
+        $cat_user_id = $_SESSION['user_id'];
 
         if ($cat_title == "" || empty($cat_title)) {
             echo "<p class='text-danger'>This field should not be empty</p>";
         } else {
-            $query = "INSERT INTO categories(cat_title) VALUE ('$cat_title')";
+            $query = "INSERT INTO categories(cat_title, cat_user_id) VALUE ('$cat_title', $cat_user_id)";
             $create_category_query = mysqli_query($connection, $query);
 
             if (!$create_category_query) {
@@ -37,6 +38,24 @@ function findAllCategory()
 {
     global $connection;
     $query = "SELECT * FROM categories ORDER BY cat_id DESC";
+    $select_categories = mysqli_query($connection, $query);
+    while ($row = mysqli_fetch_assoc($select_categories)) {
+        $cat_id = $row['cat_id'];
+        $cat_title = $row['cat_title'];
+        echo "<tr>";
+        echo "<td>$cat_id</td>";
+        echo "<td>$cat_title</td>";
+        echo "<td><a onClick=\" javascript: return confirm('Delete confirm?'); \" href='admin_categories.php?delete=$cat_id'>Delete</a></td>";
+        echo "<td><a href='admin_categories.php?edit=$cat_id'>Edit</a>";
+        echo "</tr>";
+    }
+}
+
+// FIND USER CATEGORIES QUERY
+function findUserCategory($user_id)
+{
+    global $connection;
+    $query = "SELECT * FROM categories WHERE cat_user_id = $user_id ORDER BY cat_id DESC";
     $select_categories = mysqli_query($connection, $query);
     while ($row = mysqli_fetch_assoc($select_categories)) {
         $cat_id = $row['cat_id'];
@@ -113,6 +132,33 @@ function recordCount($table)
     $query = "SELECT * FROM $table";
     $select_table = mysqli_query($connection, $query);
     return mysqli_num_rows($select_table);
+}
+
+// Specific user posts Counts
+function userPostCount($username)
+{
+    global $connection;
+    $query = "SELECT * FROM posts WHERE post_author = '$username'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_num_rows($result);
+}
+
+//  Specific user comment counts
+function userCommentCounts($username)
+{
+    global $connection;
+    $query = "SELECT * FROM posts INNER JOIN comments ON posts.post_id = comments.comment_post_id WHERE post_author = '$username'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_num_rows($result);
+}
+
+// Specific user category counts
+function userCategoryCount($user_id)
+{
+    global $connection;
+    $query = "SELECT * FROM categories WHERE cat_user_id = '$user_id'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_num_rows($result);
 }
 
 // Data Status for Graph
