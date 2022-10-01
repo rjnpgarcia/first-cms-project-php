@@ -102,12 +102,18 @@ if (isset($_POST['unliked'])) {
             <!-- Blog Comments -->
 
             <!-- For LIKES and UNLIKES -->
-            <div class="row">
-                <p class="pull-right"><a class="<?php echo userLikedPost($post_id) ? 'unlike' : 'like'; ?>" href=""><span class="glyphicon glyphicon-thumbs-up"><?php echo userLikedPost($post_id) ? ' Unlike' : ' Like'; ?></span></a></p>
-            </div>
+            <?php if (isLoggedIn()) : ?>
+                <div class="row">
+                    <p class="pull-right"><a class="<?php echo userLikedPost($post_id) ? 'unlike' : 'like'; ?>" href="" data-toggle="tooltip" data-placement="top" title="<?php echo userLikedPost($post_id) ? 'You LIKED this post' : 'LIKE this post?'; ?>"><span class="glyphicon glyphicon-thumbs-up"><?php echo userLikedPost($post_id) ? ' Unlike' : ' Like'; ?></span></a></p>
+                </div>
+            <?php else : ?>
+                <div class="row">
+                    <p class="pull-right"><a onclick="return alert('Please LOGIN to LIKE post')" href="" data-toggle="tooltip" data-placement="top" title="Please LOGIN to LIKE this post"><span class="glyphicon glyphicon-thumbs-up"></span> Like</a></p>
+                </div>
+            <?php endif; ?>
 
             <div class="row">
-                <p class="pull-right">Likes: 10</p>
+                <p class="pull-right">Likes: <?php echo !empty(getLikesCount($post_id)) ? getLikesCount($post_id) : 0; ?></p>
             </div>
 
             <!-- Comments Form -->
@@ -234,6 +240,7 @@ if (isset($_POST['unliked'])) {
     <script>
         // for LIKE
         $(document).ready(function() {
+            $("[data-toggle='tooltip'").tooltip();
             var post_id = <?php echo $post; ?>;
             var user_id = <?php echo $_SESSION['user_id']; ?>;
 
