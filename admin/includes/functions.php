@@ -170,6 +170,24 @@ function checkStatus($table, $column, $status)
     return mysqli_num_rows($result);
 }
 
+// Data Status for Posts (Specific user data)
+function checkUserPostStatus($username, $status)
+{
+    global $connection;
+    $query = "SELECT * FROM posts WHERE post_status = '$status' AND post_author = '$username'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_num_rows($result);
+}
+
+// Data Status for Comments (Specific user data)
+function checkUserCommentsStatus($username, $status)
+{
+    global $connection;
+    $query = "SELECT * FROM posts INNER JOIN comments ON posts.post_id = comments.comment_post_id WHERE post_author = '$username' AND comment_status = '$status'";
+    $result = mysqli_query($connection, $query);
+    return mysqli_num_rows($result);
+}
+
 // Detector if user is Admin
 function checkUserAdmin($username)
 {

@@ -101,11 +101,13 @@
             <!-- Dashboard Column Graph -->
             <?php
             // for Published Post Count
-            $published_count = checkStatus('posts', 'post_status', 'published');
+            $published_count = checkUserPostStatus($_SESSION['username'], 'published');
             // for Draft Post Count
-            $draft_count = checkStatus('posts', 'post_status', 'draft');
+            $draft_count = checkUserPostStatus($_SESSION['username'], 'draft');
+            // for Approved Comment Count
+            $approved_count = checkUserCommentsStatus($_SESSION['username'], 'approved');
             // for Unapproved Comment Count
-            $unapproved_count = checkStatus('comments', 'comment_status', 'unapproved');
+            $unapproved_count = checkUserCommentsStatus($_SESSION['username'], 'unapproved');
             ?>
             <div class="row">
                 <script type="text/javascript">
@@ -119,9 +121,9 @@
                             ['Data', 'Count'],
                             <?php
                             //  For Graph Elements
-                            $element_title = ['All Posts', 'Published Post', 'Draft Post', 'All Comments', 'Unapproved', 'Categories'];
-                            $element_count = [$post_count, $published_count, $draft_count, $comment_count, $unapproved_count, $category_count];
-                            for ($i = 0; $i < 6; $i++) {
+                            $element_title = ['All Posts', 'Published Post', 'Draft Post', 'All Comments', 'Approved', 'Unapproved', 'Categories'];
+                            $element_count = [$post_count, $published_count, $draft_count, $comment_count, $approved_count, $unapproved_count, $category_count];
+                            for ($i = 0; $i < 7; $i++) {
                                 echo "['$element_title[$i]', $element_count[$i]],";
                             }
 
